@@ -1,0 +1,3 @@
+{
+	"extends": "@juris-os-/config/tsconfig.base.json"
+}

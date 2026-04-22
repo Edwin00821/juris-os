@@ -1,11 +1,11 @@
 import { Button } from "@juris-os-/ui/components/button";
 
 export default function Home() {
-  return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">Juris OS</pre>
+	return (
+		<div className="container mx-auto max-w-3xl px-4 py-2">
+			<pre className="overflow-x-auto font-mono text-sm">Juris OS</pre>
 
-      <Button>Click</Button>
-    </div>
-  );
+			<Button>Click</Button>
+		</div>
+	);
 }

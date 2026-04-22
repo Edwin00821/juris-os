@@ -22,6 +22,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.0",
+		"@commitlint/cli": "^20.5.0",
+		"@commitlint/config-conventional": "^20.5.0",
 		"@juris-os-/config": "*",
 		"@types/node": "^22.13.14",
 		"husky": "^9.1.7",

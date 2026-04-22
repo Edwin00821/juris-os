@@ -7,19 +7,19 @@ import { SignInForm } from "../components/sign-in-form";
 import { StatusBanner } from "../components/status-banner";
 
 export function SignInPage() {
-  const [hasError, _setHasError] = useState(true);
-  const [isPending, _setIsPending] = useState(true);
-  return (
-    <>
-      <div className="rounded-xl border border-outline-variant/10 bg-surface-container-lowest p-8 shadow-lg">
-        <AuthTabs />
+	const [hasError, _setHasError] = useState(true);
+	const [isPending, _setIsPending] = useState(true);
+	return (
+		<>
+			<div className="rounded-xl border border-outline-variant/10 bg-surface-container-lowest p-8 shadow-lg">
+				<AuthTabs />
 
-        {hasError && <AuthErrorAlert />}
+				{hasError && <AuthErrorAlert />}
 
-        <SignInForm />
-      </div>
+				<SignInForm />
+			</div>
 
-      {isPending && <StatusBanner />}
-    </>
-  );
+			{isPending && <StatusBanner />}
+		</>
+	);
 }

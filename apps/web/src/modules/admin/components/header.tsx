@@ -2,15 +2,20 @@
 
 import { Separator } from "@juris-os-/ui/components/separator";
 import { SidebarTrigger } from "@juris-os-/ui/components/sidebar";
-import { Bell, CircleUser } from "lucide-react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+	HeaderActionGroup,
+	NotificationAction,
+	UserAccountAction,
+} from "@/components/header-actions";
 import type { NavItem } from "@/types/nav.types";
 
 const NAV_LINKS: NavItem[] = [
-	{ title: "Ciudadano", href: "#citizen" },
+	{ title: "Ciudadano", href: "/citizen" },
 	{ title: "Administrador", href: "/admin" },
-	{ title: "Juez", href: "#judge" },
+	{ title: "Juez", href: "/judge/cases" },
 ];
 
 export function Header() {
@@ -20,7 +25,7 @@ export function Header() {
 		<header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-outline-variant/20 border-b bg-surface-container-lowest/80 px-4 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
 			<div className="flex items-center gap-2">
 				<SidebarTrigger className="-ml-1" />
-				<Separator orientation="vertical" className="mr-2 h-4" />
+				<Separator orientation="vertical" className="mr-2 h-10" />
 				<div className="font-bold font-headline text-primary text-xl tracking-tighter">
 					Justicia Soberana
 				</div>
@@ -46,22 +51,10 @@ export function Header() {
 				})}
 			</nav>
 
-			<div className="flex items-center gap-4">
-				<button
-					type="button"
-					className="rounded-full p-2 text-primary transition-colors hover:bg-surface-container"
-					aria-label="Notifications"
-				>
-					<Bell className="size-5" />
-				</button>
-				<button
-					type="button"
-					className="rounded-full p-2 text-primary transition-colors hover:bg-surface-container"
-					aria-label="User Profile"
-				>
-					<CircleUser className="size-5" />
-				</button>
-			</div>
+			<HeaderActionGroup>
+				<NotificationAction unreadCount={100} />
+				<UserAccountAction />
+			</HeaderActionGroup>
 		</header>
 	);
 }

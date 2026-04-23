@@ -16,14 +16,14 @@ const buttonVariants = cva(
 				ghost:
 					"text-muted-foreground hover:bg-muted hover:text-foreground hover:text-primary aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
 				destructive:
-					"bg-destructive/10 text-destructive-foreground hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 dark:hover:bg-destructive/30",
+					"bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 dark:hover:bg-destructive/30",
 				link: "text-primary underline-offset-4 hover:underline",
 				nav: "rounded-none border-transparent border-b-2 bg-transparent pb-2 text-muted-foreground hover:text-primary data-[state=active]:border-primary data-[state=active]:text-primary",
 			},
 			size: {
-				default: "h-14 px-6 py-4",
-				xs: "h-8 px-3 text-xs",
-				sm: "h-10 px-4",
+				default: "h-10 px-6 py-2",
+				xs: "h-6 px-2 text-xs",
+				sm: "h-8 px-4",
 				lg: "h-16 px-8 text-base",
 				icon: "size-10 rounded-full",
 				"icon-xs": "size-8 rounded-full",

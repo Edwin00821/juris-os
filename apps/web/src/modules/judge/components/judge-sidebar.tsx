@@ -11,8 +11,8 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarSeparator,
-} from "@juris-os-/ui/components/sidebar";
-import { cn } from "@juris-os-/ui/lib/utils";
+} from "@juris-os/ui/components/sidebar";
+import { cn } from "@juris-os/ui/lib/utils";
 import {
 	Calendar,
 	FileText,

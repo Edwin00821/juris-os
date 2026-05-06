@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { Calendar } from "lucide-react";
 
 export function AnalyticsFilters() {

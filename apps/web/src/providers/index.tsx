@@ -1,6 +1,6 @@
 "use client";
 
-import { Toaster } from "@juris-os-/ui/components/sonner";
+import { Toaster } from "@juris-os/ui/components/sonner";
 
 import { ThemeProvider } from "./theme-provider";
 

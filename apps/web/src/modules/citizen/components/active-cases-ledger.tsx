@@ -1,4 +1,4 @@
-import { Badge } from "@juris-os-/ui/components/badge";
+import { Badge } from "@juris-os/ui/components/badge";
 import {
 	Table,
 	TableBody,
@@ -6,7 +6,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@juris-os-/ui/components/table";
+} from "@juris-os/ui/components/table";
 import { ArrowRight } from "lucide-react";
 
 const ACTIVE_CASES = [

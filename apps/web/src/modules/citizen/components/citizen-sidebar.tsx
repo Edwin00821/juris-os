@@ -2,10 +2,10 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
-} from "@juris-os-/ui/components/avatar";
-import { Badge } from "@juris-os-/ui/components/badge";
-import { Button } from "@juris-os-/ui/components/button";
-import { Card, CardContent } from "@juris-os-/ui/components/card";
+} from "@juris-os/ui/components/avatar";
+import { Badge } from "@juris-os/ui/components/badge";
+import { Button } from "@juris-os/ui/components/button";
+import { Card, CardContent } from "@juris-os/ui/components/card";
 import { Clock, Plus, Scale } from "lucide-react";
 
 export function CitizenSidebar() {

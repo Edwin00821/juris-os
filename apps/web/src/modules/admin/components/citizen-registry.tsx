@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@juris-os-/ui/components/badge";
-import { Input } from "@juris-os-/ui/components/input";
+import { Badge } from "@juris-os/ui/components/badge";
+import { Input } from "@juris-os/ui/components/input";
 import {
 	Table,
 	TableBody,
@@ -9,7 +9,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@juris-os-/ui/components/table";
+} from "@juris-os/ui/components/table";
 import { ArrowUpCircle, Search } from "lucide-react";
 import { MOCK_CITIZENS } from "@/modules/admin/constants/mock-data";
 

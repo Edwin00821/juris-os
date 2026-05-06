@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { Bot, X } from "lucide-react";
 import { useState } from "react";
 

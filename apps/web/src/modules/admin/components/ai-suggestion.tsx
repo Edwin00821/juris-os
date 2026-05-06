@@ -4,8 +4,8 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
-} from "@juris-os-/ui/components/avatar";
-import { Badge } from "@juris-os-/ui/components/badge";
+} from "@juris-os/ui/components/avatar";
+import { Badge } from "@juris-os/ui/components/badge";
 import { Brain, CheckCircle2, Sparkles } from "lucide-react";
 
 export function AiSuggestion() {

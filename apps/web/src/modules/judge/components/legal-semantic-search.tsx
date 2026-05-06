@@ -1,5 +1,5 @@
-import { Button } from "@juris-os-/ui/components/button";
-import { Input } from "@juris-os-/ui/components/input";
+import { Button } from "@juris-os/ui/components/button";
+import { Input } from "@juris-os/ui/components/input";
 import { Sparkles } from "lucide-react";
 
 export function LegalSemanticSearch() {

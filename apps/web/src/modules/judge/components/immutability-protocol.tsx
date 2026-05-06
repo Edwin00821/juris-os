@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { AlertTriangle, Lock } from "lucide-react";
 
 interface ImmutabilityProtocolProps {

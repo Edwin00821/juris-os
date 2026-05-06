@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@juris-os-/ui/components/badge";
+import { Badge } from "@juris-os/ui/components/badge";
 import { Clock, FileText, Inbox } from "lucide-react";
 import { MOCK_CASES } from "@/modules/admin/constants/mock-data";
 

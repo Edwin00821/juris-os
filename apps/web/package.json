@@ -8,8 +8,8 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@juris-os-/env": "*",
-		"@juris-os-/ui": "*",
+		"@juris-os/env": "*",
+		"@juris-os/ui": "*",
 		"@tanstack/react-form": "^1.28.0",
 		"babel-plugin-react-compiler": "^1.0.0",
 		"better-auth": "1.5.5",
@@ -23,7 +23,7 @@
 		"zod": "^4.1.13"
 	},
 	"devDependencies": {
-		"@juris-os-/config": "*",
+		"@juris-os/config": "*",
 		"@tailwindcss/postcss": "^4.1.18",
 		"@types/node": "^20",
 		"@types/react": "^19.2.10",

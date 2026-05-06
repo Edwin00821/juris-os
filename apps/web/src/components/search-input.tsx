@@ -1,5 +1,5 @@
-import { Input } from "@juris-os-/ui/components/input";
-import { cn } from "@juris-os-/ui/lib/utils";
+import { Input } from "@juris-os/ui/components/input";
+import { cn } from "@juris-os/ui/lib/utils";
 import { Search } from "lucide-react";
 
 interface SearchInputProps {

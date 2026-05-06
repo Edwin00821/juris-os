@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@juris-os-/ui/components/badge";
-import { Button } from "@juris-os-/ui/components/button";
+import { Badge } from "@juris-os/ui/components/badge";
+import { Button } from "@juris-os/ui/components/button";
 
 import { Download } from "lucide-react";
 

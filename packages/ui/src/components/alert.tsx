@@ -1,4 +1,4 @@
-import { cn } from "@juris-os-/ui/lib/utils";
+import { cn } from "@juris-os/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 

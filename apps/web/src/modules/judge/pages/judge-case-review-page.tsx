@@ -1,4 +1,4 @@
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { CaseDocumentViewer } from "../components/case-document-viewer";
 import { CompensationWidget } from "../components/compensation-widget";
 import { LegalInsightSummary } from "../components/legal-insight-summary";

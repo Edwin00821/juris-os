@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@juris-os-/ui/components/button";
-import { Input } from "@juris-os-/ui/components/input";
-import { Label } from "@juris-os-/ui/components/label";
+import { Button } from "@juris-os/ui/components/button";
+import { Input } from "@juris-os/ui/components/input";
+import { Label } from "@juris-os/ui/components/label";
 import { AtSign, Eye, EyeOff, LockKeyholeOpen } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

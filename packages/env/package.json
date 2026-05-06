@@ -1,9 +1,10 @@
 {
-	"name": "@juris-os-/env",
+	"name": "@juris-os/env",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"exports": {
+		"./auth": "./src/auth.ts",
 		"./server": "./src/server.ts",
 		"./web": "./src/web.ts"
 	},
@@ -14,7 +15,7 @@
 		"zod": "^4.1.13"
 	},
 	"devDependencies": {
-		"@juris-os-/config": "*",
+		"@juris-os/config": "*",
 		"@types/node": "^22.13.14",
 		"typescript": "^6"
 	}

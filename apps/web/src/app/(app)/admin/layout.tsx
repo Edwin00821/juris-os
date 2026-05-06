@@ -1,7 +1,4 @@
-import {
-	SidebarInset,
-	SidebarProvider,
-} from "@juris-os-/ui/components/sidebar";
+import { SidebarInset, SidebarProvider } from "@juris-os/ui/components/sidebar";
 import { AdminSidebar } from "@/modules/admin/components/admin-sidebar";
 import { Header } from "@/modules/admin/components/header";
 

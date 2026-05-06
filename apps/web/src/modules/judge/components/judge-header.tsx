@@ -1,5 +1,5 @@
-import { Separator } from "@juris-os-/ui/components/separator";
-import { SidebarTrigger } from "@juris-os-/ui/components/sidebar";
+import { Separator } from "@juris-os/ui/components/separator";
+import { SidebarTrigger } from "@juris-os/ui/components/sidebar";
 import Link from "next/link";
 import {
 	HeaderActionGroup,

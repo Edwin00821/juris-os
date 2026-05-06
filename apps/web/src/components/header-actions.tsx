@@ -1,4 +1,4 @@
-import { cn } from "@juris-os-/ui/lib/utils";
+import { cn } from "@juris-os/ui/lib/utils";
 import { Bell, User } from "lucide-react";
 
 export function HeaderActionGroup({

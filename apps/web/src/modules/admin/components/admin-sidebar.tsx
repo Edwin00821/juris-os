@@ -10,7 +10,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
-} from "@juris-os-/ui/components/sidebar";
+} from "@juris-os/ui/components/sidebar";
 import {
 	Calendar,
 	FileText,

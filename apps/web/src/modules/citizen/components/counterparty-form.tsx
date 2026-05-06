@@ -1,6 +1,6 @@
-import { Button } from "@juris-os-/ui/components/button";
-import { Input } from "@juris-os-/ui/components/input";
-import { Label } from "@juris-os-/ui/components/label";
+import { Button } from "@juris-os/ui/components/button";
+import { Input } from "@juris-os/ui/components/input";
+import { Label } from "@juris-os/ui/components/label";
 import { UserSearch } from "lucide-react";
 
 export function CounterpartyForm() {

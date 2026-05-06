@@ -1,4 +1,4 @@
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { Bot } from "lucide-react";
 
 export function ChatWidget() {

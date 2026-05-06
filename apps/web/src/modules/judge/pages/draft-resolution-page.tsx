@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@juris-os-/ui/components/button";
+import { Button } from "@juris-os/ui/components/button";
 import { History } from "lucide-react";
 
 import { CaseIntelligenceCard } from "@/modules/judge/components/case-intelligence-card";

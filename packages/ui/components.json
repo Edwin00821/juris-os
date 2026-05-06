@@ -12,11 +12,11 @@
 	},
 	"iconLibrary": "lucide",
 	"aliases": {
-		"components": "@juris-os-/ui/components",
-		"utils": "@juris-os-/ui/lib/utils",
-		"hooks": "@juris-os-/ui/hooks",
-		"lib": "@juris-os-/ui/lib",
-		"ui": "@juris-os-/ui/components"
+		"components": "@juris-os/ui/components",
+		"utils": "@juris-os/ui/lib/utils",
+		"hooks": "@juris-os/ui/hooks",
+		"lib": "@juris-os/ui/lib",
+		"ui": "@juris-os/ui/components"
 	},
 	"menuColor": "default",
 	"menuAccent": "subtle",

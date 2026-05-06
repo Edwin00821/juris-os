@@ -13,8 +13,8 @@
 	"iconLibrary": "lucide",
 	"aliases": {
 		"components": "@/components",
-		"utils": "@juris-os-/ui/lib/utils",
-		"ui": "@juris-os-/ui/components",
+		"utils": "@juris-os/ui/lib/utils",
+		"ui": "@juris-os/ui/components",
 		"lib": "@/lib",
 		"hooks": "@/hooks"
 	},

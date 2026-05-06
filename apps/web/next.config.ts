@@ -1,4 +1,4 @@
-import "@juris-os-/env/web";
+import "@juris-os/env/web";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

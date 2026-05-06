@@ -2,24 +2,24 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Button } from "@juris-os-/ui/components/button";
-import { Input } from "@juris-os-/ui/components/input";
-import { Separator } from "@juris-os-/ui/components/separator";
+import { Button } from "@juris-os/ui/components/button";
+import { Input } from "@juris-os/ui/components/input";
+import { Separator } from "@juris-os/ui/components/separator";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@juris-os-/ui/components/sheet";
-import { Skeleton } from "@juris-os-/ui/components/skeleton";
+} from "@juris-os/ui/components/sheet";
+import { Skeleton } from "@juris-os/ui/components/skeleton";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@juris-os-/ui/components/tooltip";
-import { useIsMobile } from "@juris-os-/ui/hooks/use-mobile";
-import { cn } from "@juris-os-/ui/lib/utils";
+} from "@juris-os/ui/components/tooltip";
+import { useIsMobile } from "@juris-os/ui/hooks/use-mobile";
+import { cn } from "@juris-os/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";

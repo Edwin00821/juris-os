@@ -1,7 +1,4 @@
-import {
-	SidebarInset,
-	SidebarProvider,
-} from "@juris-os-/ui/components/sidebar";
+import { SidebarInset, SidebarProvider } from "@juris-os/ui/components/sidebar";
 import type { Metadata } from "next";
 import { JudgeAiAssistantFab } from "@/modules/judge/components/judge-ai-assistant-fab";
 import { DashboardHeader } from "@/modules/judge/components/judge-header";

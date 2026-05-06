@@ -1,0 +1,17 @@
+{
+	"name": "@juris-os/utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./auth": "./src/auth.ts"
+	},
+	"dependencies": {
+		"@node-rs/argon2": "^2.0.2"
+	},
+	"devDependencies": {
+		"@juris-os/config": "*",
+		"@types/node": "^22.13.14",
+		"typescript": "^6"
+	}
+}

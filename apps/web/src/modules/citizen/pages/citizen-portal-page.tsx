@@ -1,11 +1,11 @@
+"use client";
+
 import { ActiveCasesLedger } from "../components/active-cases-ledger";
-import { AiLawsuitGenerator } from "../components/ai-lawsuit-generator";
 import { CitizenSidebar } from "../components/citizen-sidebar";
-import { CounterpartyForm } from "../components/counterparty-form";
 
 export function CitizenPortalPage() {
 	return (
-		<main className="mx-auto flex w-full max-w-400 grow flex-col gap-8 px-4 py-8 md:flex-row md:px-8">
+		<main className="mx-auto flex w-full max-w-[1600px] grow flex-col gap-8 px-4 py-8 md:flex-row md:px-8">
 			<CitizenSidebar />
 
 			<div className="flex grow flex-col gap-8">
@@ -20,16 +20,8 @@ export function CitizenPortalPage() {
 					</p>
 				</section>
 
-				<div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-					<div className="lg:col-span-8">
-						<ActiveCasesLedger />
-					</div>
-					<div className="lg:col-span-4">
-						<AiLawsuitGenerator />
-					</div>
-					<div className="lg:col-span-12">
-						<CounterpartyForm />
-					</div>
+				<div className="grid grid-cols-1 gap-6">
+					<ActiveCasesLedger />
 				</div>
 			</div>
 		</main>

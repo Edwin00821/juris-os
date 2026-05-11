@@ -7,6 +7,7 @@ import { Badge } from "@juris-os/ui/components/badge";
 import { Button } from "@juris-os/ui/components/button";
 import { Card, CardContent } from "@juris-os/ui/components/card";
 import { Clock, Plus, Scale } from "lucide-react";
+import Link from "next/link";
 
 export function CitizenSidebar() {
 	return (
@@ -29,7 +30,12 @@ export function CitizenSidebar() {
 							SVN-9921-X
 						</span>
 					</p>
-					<Button className="w-full gap-2">
+					<Button
+						className="w-full gap-2"
+						// @ts-expect-error - Ignoramos temporalmente hasta crear la ruta
+						render={<Link href="/citizen/new-case" />}
+						nativeButton={false}
+					>
 						<Plus className="size-5" />
 						Registrar Nuevo Caso
 					</Button>

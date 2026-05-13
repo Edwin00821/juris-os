@@ -1,6 +1,6 @@
-import { AssistantWidget } from "@/modules/auth/components/assistant-widget";
-import { AuthFooter } from "@/modules/auth/components/auth-footer";
-import { HeroSection } from "@/modules/auth/components/hero-section";
+import { AssistantWidget } from "@/modules/iam/components/assistant-widget";
+import { AuthFooter } from "@/modules/iam/components/auth-footer";
+import { HeroSection } from "@/modules/iam/components/hero-section";
 
 export default function AuthLayout({
 	children,

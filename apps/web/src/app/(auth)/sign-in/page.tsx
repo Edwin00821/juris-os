@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { SignInPage } from "@/modules/auth/pages/sign-in";
+import { SignInPage } from "@/modules/iam/sign-in/sign-in.page";
 
 export const metadata: Metadata = {
 	title: "Acceso | Justicia Soberana",

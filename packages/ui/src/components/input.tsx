@@ -38,4 +38,6 @@ function Input({
 	);
 }
 
+export type InputProps = React.ComponentProps<"input">;
+
 export { Input };

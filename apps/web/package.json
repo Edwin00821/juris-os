@@ -8,6 +8,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@juris-os/auth": "*",
 		"@juris-os/env": "*",
 		"@juris-os/ui": "*",
 		"@tanstack/react-form": "^1.28.0",

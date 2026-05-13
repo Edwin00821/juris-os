@@ -4,9 +4,7 @@ interface AuthErrorAlertProps {
 	message?: string;
 }
 
-export function AuthErrorAlert({
-	message = "Credenciales inválidas. Por favor, verifique su ID de funcionario.",
-}: AuthErrorAlertProps) {
+export function AuthErrorAlert({ message }: AuthErrorAlertProps) {
 	if (!message) return null;
 
 	return (

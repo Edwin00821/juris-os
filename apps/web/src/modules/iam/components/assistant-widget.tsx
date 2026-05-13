@@ -1,7 +1,13 @@
 import { Button } from "@juris-os/ui/components/button";
 import { Bot } from "lucide-react";
 
-export function AssistantWidget() {
+type AssistantWidgetProps = {
+	message?: string;
+};
+
+export function AssistantWidget({
+	message = "¿Necesitas ayuda para acceder?",
+}: AssistantWidgetProps) {
 	return (
 		<div className="fixed right-8 bottom-8 z-50">
 			<Button
@@ -16,7 +22,7 @@ export function AssistantWidget() {
 						Asistente de Justicia
 					</p>
 					<p className="font-medium text-muted-foreground text-xs leading-tight">
-						¿Necesitas ayuda para acceder?
+						{message}
 					</p>
 				</div>
 			</Button>

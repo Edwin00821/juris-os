@@ -8,6 +8,13 @@
 			"when": 1778081460561,
 			"tag": "0000_chubby_maverick",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1778644585844,
+			"tag": "0001_medical_venus",
+			"breakpoints": true
 		}
 	]
 }

@@ -1,4 +1,4 @@
-import { db } from "@juris-os/db";
+import { db } from "@juris-os/db/web";
 import { hashPassword } from "@juris-os/utils/auth";
 import { nanoid } from "nanoid";
 import * as authSchema from "../../schema/auth.schema";

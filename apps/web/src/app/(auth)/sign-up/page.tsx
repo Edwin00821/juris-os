@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
-import { SignInPage } from "@/modules/iam/sign-in/sign-in.page";
+import { SignUpPage } from "@/modules/iam/sign-up/sign-up.page";
 
 export const metadata: Metadata = {
 	title: "Acceso | Justicia Soberana",
 	description: "Sistema de Apoyo Judicial - Juris OS",
 };
 
-export default function SignIn() {
-	return <SignInPage />;
+export default function SignUp() {
+	return <SignUpPage />;
 }

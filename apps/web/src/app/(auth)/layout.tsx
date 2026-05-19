@@ -1,12 +1,16 @@
+import { guardGuest } from "@/lib/auth-guard";
+
 import { AssistantWidget } from "@/modules/iam/components/assistant-widget";
 import { AuthFooter } from "@/modules/iam/components/auth-footer";
 import { HeroSection } from "@/modules/iam/components/hero-section";
 
-export default function AuthLayout({
+export default async function AuthLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	await guardGuest();
+
 	return (
 		<div className="flex min-h-screen flex-col bg-surface font-body text-on-surface">
 			<main className="flex min-h-screen grow flex-col md:flex-row">

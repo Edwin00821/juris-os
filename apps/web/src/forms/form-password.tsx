@@ -5,7 +5,7 @@ import {
 	InputGroupButton,
 	InputGroupInput,
 } from "@juris-os/ui/components/input-group";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import type { HTMLInputAutoCompleteAttribute } from "react";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ export type FormPasswordProps = {
 
 export function FormPassword({
 	label,
-	placeholder,
+	placeholder = "••••••••••••",
 	autoComplete = "current-password",
 }: FormPasswordProps) {
 	const field = useFieldContext<string>();
@@ -36,6 +36,10 @@ export function FormPassword({
 		<Field className={isInvalid ? "text-destructive" : ""}>
 			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 			<InputGroup>
+				<InputGroupAddon align="inline-start">
+					<Lock className="size-5" />
+				</InputGroupAddon>
+
 				<InputGroupInput
 					id={field.name}
 					name={field.name}
@@ -47,21 +51,19 @@ export function FormPassword({
 					placeholder={placeholder}
 					autoComplete={autoComplete}
 				/>
+
 				<InputGroupAddon align="inline-end">
 					<InputGroupButton
 						type="button"
-						variant="ghost"
-						size="icon-sm"
-						className="rounded-full"
 						onClick={togglePasswordVisibility}
 						aria-label={
 							showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
 						}
 					>
 						{showPassword ? (
-							<EyeOff className="size-4" />
+							<EyeOff className="size-5" />
 						) : (
-							<Eye className="size-4" />
+							<Eye className="size-5" />
 						)}
 					</InputGroupButton>
 				</InputGroupAddon>

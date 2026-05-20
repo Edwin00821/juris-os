@@ -9,7 +9,7 @@ export function HeaderActionGroup({
 	className?: string;
 }) {
 	return (
-		<div className={cn("flex items-center gap-1", className)}>{children}</div>
+		<div className={cn("flex items-center gap-2", className)}>{children}</div>
 	);
 }
 
@@ -28,21 +28,21 @@ export function NotificationAction({
 	return (
 		<button
 			type="button"
-			className="relative rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+			className="relative rounded-full p-2 text-blue-900 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
 		>
 			<Bell className="size-5" />
 
 			{showDot && (
 				<span
 					className={[
-						"absolute top-2 right-2.5 size-1.75 rounded-full border-2 border-white dark:border-zinc-900",
-						hasUnread ? "bg-red-500" : "bg-zinc-400 dark:bg-zinc-600",
+						"absolute top-2 right-2.5 size-1.75 rounded-full border-2 border-white dark:border-slate-900",
+						hasUnread ? "bg-red-500" : "bg-slate-400 dark:bg-slate-600",
 					].join(" ")}
 				/>
 			)}
 
 			{showBadge && (
-				<span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full border-2 border-white bg-red-500 px-1 font-semibold text-[9px] text-white dark:border-zinc-900">
+				<span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full border-2 border-white bg-red-500 px-1 font-semibold text-[9px] text-white dark:border-slate-900">
 					{unreadCount > 99 ? "99+" : unreadCount}
 				</span>
 			)}

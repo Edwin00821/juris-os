@@ -15,7 +15,7 @@ import type { NavItem } from "@/types/nav.types";
 const NAV_LINKS: NavItem[] = [
 	{ title: "Ciudadano", href: "/citizen" },
 	{ title: "Administrador", href: "/admin" },
-	{ title: "Juez", href: "/judge/cases" },
+	{ title: "Juez", href: "/judge" },
 ];
 
 export function Header() {

@@ -29,9 +29,9 @@ import type { NavItem } from "@/types/nav.types";
 
 const MAIN_NAV_ITEMS: NavItem[] = [
 	{ title: "Panel de Control", icon: LayoutDashboard, href: "/judge" },
-	{ title: "Casos", icon: Gavel, href: "/judge/cases", isActive: true },
-	{ title: "Documentos", icon: FileText, href: "/judge/signatures" },
-	{ title: "Calendario", icon: Calendar, href: "/judge/calendar" },
+	{ title: "Casos", icon: Gavel, href: "#judge/cases", isActive: true },
+	{ title: "Documentos", icon: FileText, href: "#judge/signatures" },
+	{ title: "Calendario", icon: Calendar, href: "#judge/calendar" },
 	{ title: "Configuración", icon: Settings, href: "#judge#settings" },
 ];
 

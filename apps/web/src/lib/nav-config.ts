@@ -23,7 +23,7 @@ export const NAV_CONFIG: Record<UserRole, NavItem[]> = {
 		{ title: "Jueces", href: "#admin/directory", icon: Users },
 		{
 			title: "Asignación de Casos",
-			href: "/admin/assignments",
+			href: "#admin/assignments",
 			icon: ClipboardList,
 		},
 	],

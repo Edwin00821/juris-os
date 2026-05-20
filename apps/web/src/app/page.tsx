@@ -1,16 +1,17 @@
-import { Button } from "@juris-os/ui/components/button";
+import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
+import type { UserRole } from "@/types/user.type";
 
 export default async function Home() {
 	const session = await getSession();
 
-	return (
-		<div className="container mx-auto max-w-3xl px-4 py-2">
-			<pre className="overflow-x-auto font-mono text-sm">Juris OS</pre>
-			<p>{session?.user.name}</p>
-			<p>{session?.user.role}</p>
+	if (!session) redirect("/sign-in");
 
-			<Button>Click</Button>
-		</div>
-	);
+	const role = session.user.role as UserRole;
+
+	if (role === "citizen") redirect("/citizen");
+	if (role === "judge") redirect("/judge");
+	if (role === "admin") redirect("/admin");
+
+	return null;
 }

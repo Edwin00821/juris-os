@@ -20,19 +20,19 @@ export interface NavItem {
 export const NAV_CONFIG: Record<UserRole, NavItem[]> = {
 	admin: [
 		{ title: "Panel de Control", href: "/admin", icon: LayoutDashboard },
-		{ title: "Jueces", href: "#admin/directory", icon: Users },
+		{ title: "Jueces", href: "/admin/directory", icon: Users },
 		{
 			title: "Asignación de Casos",
-			href: "#admin/assignments",
+			href: "/admin/assignments",
 			icon: ClipboardList,
 		},
 	],
 	judge: [
 		{ title: "Casos Pendientes", href: "/judge", icon: Clock },
-		{ title: "Casos Terminados", href: "#judge/history", icon: CheckCircle },
+		{ title: "Casos Terminados", href: "/judge/resolved", icon: CheckCircle },
 	],
 	citizen: [
 		{ title: "Mis Casos", href: "/citizen", icon: FileText },
-		{ title: "Nueva Demanda", href: "#citizen/cases/new", icon: PlusCircle },
+		{ title: "Nueva Demanda", href: "/citizen/cases/new", icon: PlusCircle },
 	],
 };

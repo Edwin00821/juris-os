@@ -13,7 +13,7 @@ const inputVariants = cva(
 				filled:
 					"h-14 border-x-0 border-t-0 border-b-2 border-b-outline-variant/30 bg-surface-container-lowest px-4 py-4 transition-all focus-visible:border-b-primary focus-visible:bg-surface-container-low focus-visible:ring-0",
 				search:
-					"h-9 rounded-full border-none bg-surface-container-high px-4 py-1.5 focus-visible:ring-2 focus-visible:ring-primary",
+					"h-9 rounded-sm border-none bg-surface-container-high px-4 py-1.5 focus-visible:ring-2 focus-visible:ring-primary",
 			},
 		},
 		defaultVariants: {

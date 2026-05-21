@@ -1,0 +1,10 @@
+.
+├── b.txt
+├── package.json
+├── src
+│   ├── app.ts
+│   └── index.ts
+├── tsconfig.json
+└── tsdown.config.ts
+
+2 directories, 6 files

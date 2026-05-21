@@ -18,6 +18,10 @@
 			]
 		},
 
+		"api-gateway#build": {
+			"env": ["DATABASE_URL", "CORS_ORIGIN"]
+		},
+
 		"lint": {
 			"dependsOn": ["^lint"]
 		},

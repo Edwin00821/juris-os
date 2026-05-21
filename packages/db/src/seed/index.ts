@@ -9,10 +9,13 @@ console.log("🔑 DATABASE_URL present:", !!process.env.DATABASE_URL);
 
 async function main() {
 	const { runAuthSeed } = await import("./auth");
+	const { runCasesSeed } = await import("./cases/cases.seed");
 
 	const SEEDS: Record<string, () => Promise<void>> = {
 		auth: runAuthSeed,
+		cases: runCasesSeed,
 	};
+
 	const target = process.argv[2];
 
 	if (!target) {

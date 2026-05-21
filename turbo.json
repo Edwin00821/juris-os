@@ -56,6 +56,9 @@
 		"db:seed:auth": {
 			"cache": false
 		},
+		"db:seed:cases": {
+			"cache": false
+		},
 		"db:start": {
 			"cache": false,
 			"persistent": true

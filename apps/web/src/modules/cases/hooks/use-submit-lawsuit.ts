@@ -1,7 +1,9 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 import { useAppForm } from "@/forms/form-context";
+import { apiClient } from "@/lib/api-client";
 
 const manualLawsuitSchema = z.object({
 	title: z.string().min(1, "El título es requerido"),
@@ -16,6 +18,7 @@ const manualLawsuitSchema = z.object({
 
 export function useSubmitLawsuit() {
 	const router = useRouter();
+	const queryClient = useQueryClient();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -39,12 +42,16 @@ export function useSubmitLawsuit() {
 			setError(null);
 
 			try {
-				await new Promise((resolve) => setTimeout(resolve, 1500));
+				await apiClient("/cases", {
+					method: "POST",
+					body: JSON.stringify(value),
+				});
 
-				console.log("Payload enviado:", value);
+				await queryClient.invalidateQueries({
+					queryKey: ["active-cases"],
+				});
 
-				router.push("/citizen/cases/new");
-
+				router.push("/citizen");
 				router.refresh();
 			} catch (_e) {
 				setError(

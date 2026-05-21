@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
+import { requireAuth } from "./core/middlewares/auth.middleware";
 
 const app = new Hono();
 
@@ -75,6 +76,10 @@ app.notFound((c) => {
 		},
 		404,
 	);
+});
+
+app.get("/me", requireAuth, (c) => {
+	return c.json({ success: true, data: c.get("user") });
 });
 
 app.get("/", (c) => {

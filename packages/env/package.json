@@ -4,8 +4,7 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./auth": "./src/auth.ts",
-		"./server": "./src/server.ts",
+		"./api-gateway": "./src/api-gateway.ts",
 		"./web": "./src/web.ts"
 	},
 	"dependencies": {

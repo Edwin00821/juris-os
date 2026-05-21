@@ -1,6 +1,5 @@
-// lib/api-client.ts
 export async function apiClient<T>(
-	endpoint: string, // ej: "/cases"
+	endpoint: string,
 	options: RequestInit = {},
 ): Promise<T> {
 	const headers = new Headers(options.headers);

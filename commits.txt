@@ -1,0 +1,14 @@
+9f16762 feat(iam): implement sign-up page and logic
+1bfc40b refactor(iam): protect auth layout, update dynamic tabs and add StatusCard
+172874e feat(web): integrate FormInputGroup and improve FormPassword
+793ef34 refactor(ui): redesign input-group and adjust input styles
+90a2fe2 feat(web): implement sign in logic and form components
+3776526 refactor(web): update iam ui components props
+fc94677 feat(web): add auth api route and session retrieval
+f80d080 fix(db): correct db web import in seed
+933496a feat(db): add jwks schema and migration
+1ff1677 refactor(web): migrate auth module to iam
+f71945b feat(web): define user and session types
+8c0c380 feat(web): setup auth client and route guards
+4a2dd7f feat(auth): initialize auth package with better-auth
+72a93be feat(web): add reusable tanstack form components

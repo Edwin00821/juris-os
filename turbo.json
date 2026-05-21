@@ -9,6 +9,8 @@
 		},
 
 		"web#build": {
+			"dependsOn": ["^build"],
+			"outputs": [".next/**", "!.next/cache/**"],
 			"env": [
 				"DATABASE_URL",
 				"BETTER_AUTH_SECRET",
@@ -19,6 +21,8 @@
 		},
 
 		"api-gateway#build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**"],
 			"env": ["DATABASE_URL", "CORS_ORIGIN"]
 		},
 

@@ -21,9 +21,7 @@ export default async function AppLayout({
 		return (
 			<div className="flex min-h-screen flex-col bg-[#f7f9fb] text-[#191c1e]">
 				<TopBar user={user} role={role} />
-				<main className="flex-1 p-8">
-					<div className="mx-auto max-w-7xl">{children}</div>
-				</main>
+				<main className="flex-1 px-4">{children}</main>
 			</div>
 		);
 	}

@@ -7,5 +7,11 @@ export default defineConfig({
 	clean: true,
 	bundle: true,
 	splitting: false,
-	noExternal: [/@juris-os\/.*/],
+
+	noExternal: [/@juris-os\/.*/, /^@\//],
+	esbuildOptions(options) {
+		options.alias = {
+			"@": "./src",
+		};
+	},
 });

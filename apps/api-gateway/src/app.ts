@@ -5,6 +5,7 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
 import { requireAuth } from "./core/middlewares/auth.middleware";
+import { casesRouter } from "./modules/cases/interface/cases.router";
 
 const app = new Hono();
 
@@ -85,5 +86,7 @@ app.get("/me", requireAuth, (c) => {
 app.get("/", (c) => {
 	return c.json({ success: true, data: { status: "ok" } });
 });
+
+app.route("/cases", casesRouter);
 
 export { app };

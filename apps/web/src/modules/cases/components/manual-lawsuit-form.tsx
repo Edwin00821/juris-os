@@ -10,9 +10,9 @@ import { FileUploadZone } from "@/modules/documents/components/file-upload-zone"
 import { useSubmitLawsuit } from "../hooks/use-submit-lawsuit";
 
 const CATEGORY_OPTIONS = [
-	{ label: "Laboral", value: "laboral" },
-	{ label: "Familiar", value: "familiar" },
-	{ label: "Penal", value: "penal" },
+	{ label: "Laboral", value: "labor" },
+	{ label: "Familiar", value: "family" },
+	{ label: "Penal", value: "criminal" },
 ];
 
 export function ManualLawsuitForm() {

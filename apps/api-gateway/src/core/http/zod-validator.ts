@@ -11,7 +11,9 @@ export const validate = <T extends ZodType>(
 ) => {
 	return honoZValidator(target, schema, (result) => {
 		if (!result.success) {
-			throw result.error;
+			if ("error" in result) {
+				throw result.error;
+			}
 		}
 	});
 };

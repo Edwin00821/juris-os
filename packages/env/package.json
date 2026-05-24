@@ -4,8 +4,14 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./api-gateway": "./src/api-gateway.ts",
-		"./web": "./src/web.ts"
+		"./api-gateway": {
+			"types": "./dist/api-gateway.d.ts",
+			"default": "./dist/api-gateway.js"
+		},
+		"./web": {
+			"types": "./dist/web.d.ts",
+			"default": "./dist/web.js"
+		}
 	},
 	"scripts": {
 		"build": "tsc"

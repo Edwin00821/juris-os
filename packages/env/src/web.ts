@@ -13,6 +13,7 @@ export const env = createEnv({
 	},
 	client: {
 		NEXT_PUBLIC_SERVER_URL: z.url(),
+		NEXT_PUBLIC_API_GATEWAY: z.url(),
 	},
 	runtimeEnv: {
 		DATABASE_URL: process.env.DATABASE_URL,
@@ -26,6 +27,7 @@ export const env = createEnv({
 		// Client
 
 		NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
+		NEXT_PUBLIC_API_GATEWAY: process.env.NEXT_PUBLIC_API_GATEWAY,
 	},
 	emptyStringAsUndefined: true,
 });

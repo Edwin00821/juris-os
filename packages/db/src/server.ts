@@ -1,4 +1,4 @@
-import { env } from "@juris-os/env/server";
+import { env } from "@juris-os/env/api-gateway";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 

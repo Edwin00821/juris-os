@@ -5,6 +5,7 @@ import { hashPassword, verifyPassword } from "@juris-os/utils/auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, jwt, openAPI } from "better-auth/plugins";
+import { ac, roles } from "./auth-permissions";
 
 const devPlugins = env.NODE_ENV === "development" ? [openAPI()] : [];
 
@@ -34,7 +35,16 @@ export function createAuth() {
 				httpOnly: true,
 			},
 		},
-		plugins: [admin(), jwt(), ...devPlugins],
+		plugins: [
+			admin({
+				ac,
+				roles,
+				defaultRole: "citizen",
+				adminRoles: ["admin", "judge"],
+			}),
+			jwt(),
+			...devPlugins,
+		],
 	});
 }
 

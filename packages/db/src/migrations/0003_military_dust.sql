@@ -1,0 +1,1 @@
+ALTER TABLE "cases" ADD COLUMN "judge_id" text;

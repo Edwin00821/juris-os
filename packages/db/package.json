@@ -18,6 +18,7 @@
 		"db:seed:all": "npx tsx src/seed/index.ts all",
 		"db:seed:auth": "npx tsx src/seed/index.ts auth",
 		"db:seed:cases": "npx tsx src/seed/index.ts cases",
+		"db:seed:dashboard": "npx tsx src/seed/index.ts dashboard",
 		"db:start": "docker compose up -d",
 		"db:watch": "docker compose up",
 		"db:stop": "docker compose stop",

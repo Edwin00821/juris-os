@@ -60,6 +60,9 @@
 		"db:seed:cases": {
 			"cache": false
 		},
+		"db:seed:dashboard": {
+			"cache": false
+		},
 		"db:start": {
 			"cache": false,
 			"persistent": true

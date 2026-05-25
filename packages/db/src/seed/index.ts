@@ -10,10 +10,12 @@ console.log("🔑 DATABASE_URL present:", !!process.env.DATABASE_URL);
 async function main() {
 	const { runAuthSeed } = await import("./auth");
 	const { runCasesSeed } = await import("./cases/cases.seed");
+	const { runDashboardSeed } = await import("./dashboard/dashboard.seed");
 
 	const SEEDS: Record<string, () => Promise<void>> = {
 		auth: runAuthSeed,
 		cases: runCasesSeed,
+		dashboard: runDashboardSeed,
 	};
 
 	const target = process.argv[2];

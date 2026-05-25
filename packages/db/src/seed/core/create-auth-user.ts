@@ -24,17 +24,23 @@ export async function createAuthUser(data: {
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		})
+		.onConflictDoNothing()
 		.returning();
 
-	await db.insert(authSchema.account).values({
-		id: nanoid(),
-		accountId: userId,
-		providerId: "credential",
-		userId: userId,
-		password: hashedPassword,
-		createdAt: new Date(),
-		updatedAt: new Date(),
-	});
+	if (!user) return undefined;
+
+	await db
+		.insert(authSchema.account)
+		.values({
+			id: nanoid(),
+			accountId: userId,
+			providerId: "credential",
+			userId: userId,
+			password: hashedPassword,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		})
+		.onConflictDoNothing();
 
 	return user;
 }

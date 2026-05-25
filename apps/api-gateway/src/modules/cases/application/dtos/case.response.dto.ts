@@ -1,12 +1,12 @@
 import type { InternalCaseStatus } from "../../domain/case.types";
 
-// Matches the Case interface in the frontend exactly.
-// id is the human-readable caseNumber (CIV-2025-0001), not the internal UUID.
 export type CaseResponseDto = {
-	id: string;
+	id: string; // human-readable caseNumber shown in the UI (e.g. CIV-2025-0001)
 	title: string;
+	category: string;
 	registrationDate: string;
 	status: "OPEN" | "UNDER_REVIEW" | "PENDING_RESOLUTION";
+	judgeId: string | null;
 };
 
 export type PaginatedCasesDto = {
@@ -28,12 +28,15 @@ export const toCaseResponse = (case_: {
 	id: string;
 	caseNumber: string;
 	title: string;
+	category: string;
 	createdAt: Date;
 	status: InternalCaseStatus;
+	judgeId: string | null;
 }): CaseResponseDto => ({
-	// Expose the human-readable ID to the frontend, not the internal UUID
 	id: case_.caseNumber,
 	title: case_.title,
+	category: case_.category,
 	registrationDate: case_.createdAt.toISOString(),
 	status: STATUS_MAP[case_.status],
+	judgeId: case_.judgeId,
 });

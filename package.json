@@ -18,6 +18,7 @@
 		"db:seed:all": "turbo -F @juris-os/db db:seed:all",
 		"db:seed:auth": "turbo -F @juris-os/db db:seed:auth",
 		"db:seed:cases": "turbo -F @juris-os/db db:seed:cases",
+		"db:seed:dashboard": "turbo -F @juris-os/db db:seed:dashboard",
 		"db:start": "turbo -F @juris-os/db db:start",
 		"db:watch": "turbo -F @juris-os/db db:watch",
 		"db:stop": "turbo -F @juris-os/db db:stop",

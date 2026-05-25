@@ -1,3 +1,4 @@
+import type { InferSelectModel } from "drizzle-orm";
 import {
 	index,
 	integer,
@@ -37,6 +38,7 @@ export const cases = pgTable(
 		id: uuid("id").primaryKey().defaultRandom(),
 		// Human-readable ID shown in the UI: CIV-2025-0001
 		caseNumber: text("case_number").notNull(),
+		judgeId: text("judge_id"),
 		userId: text("user_id").notNull(),
 		title: text("title").notNull(),
 		description: text("description"),
@@ -58,3 +60,5 @@ export const cases = pgTable(
 	},
 	(table) => [index("cases_case_number_idx").on(table.caseNumber)],
 );
+
+export type CaseRecord = InferSelectModel<typeof cases>;

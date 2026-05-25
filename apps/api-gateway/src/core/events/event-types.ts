@@ -16,6 +16,16 @@ export type CaseCreatedEvent = BaseEvent<
 	}
 >;
 
+export type CaseAssignedEvent = BaseEvent<
+	"CaseAssigned",
+	{
+		caseId: string;
+		caseNumber: string;
+		judgeId: string;
+		assignedBy: string;
+	}
+>;
+
 export type CaseStatusChangedEvent = BaseEvent<
 	"CaseStatusChanged",
 	{
@@ -70,6 +80,7 @@ export type AiGenerationFailedEvent = BaseEvent<
 
 export type DomainEvent =
 	| CaseCreatedEvent
+	| CaseAssignedEvent
 	| CaseStatusChangedEvent
 	| CaseFailedEvent
 	| DocumentUploadedEvent

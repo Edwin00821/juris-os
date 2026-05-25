@@ -1,10 +1,9 @@
-import { cases } from "@juris-os/db/schema/case.schema";
+import { type CaseRecord, cases } from "@juris-os/db/schema/case.schema";
 import { db } from "@juris-os/db/server";
-import { and, count, eq } from "drizzle-orm";
+import { and, count, eq, isNotNull, isNull } from "drizzle-orm";
 import type { CreateCaseDto } from "../../application/dtos/create-case.dto";
 import type { CaseCategory } from "../../domain/case.types";
 import type {
-	CaseRecord,
 	ICaseRepository,
 	PaginatedResult,
 	PaginationParams,
@@ -45,37 +44,83 @@ export class PgCaseRepository implements ICaseRepository {
 		return (record as CaseRecord) ?? null;
 	}
 
-	async findByCaseNumber(
-		caseNumber: string,
-		userId: string,
-	): Promise<CaseRecord | null> {
+	async findByCaseNumber(caseNumber: string): Promise<CaseRecord | null> {
 		const record = await db.query.cases.findFirst({
-			where: and(eq(cases.caseNumber, caseNumber), eq(cases.userId, userId)),
+			where: and(eq(cases.caseNumber, caseNumber)),
 		});
 		return (record as CaseRecord) ?? null;
 	}
 
 	async findAllByUser(
 		userId: string,
-		{ page, pageSize }: PaginationParams,
+		{ page, pageSize, status }: PaginationParams,
 	): Promise<PaginatedResult<CaseRecord>> {
 		const offset = (page - 1) * pageSize;
 
+		const where = status
+			? and(eq(cases.userId, userId), eq(cases.status, status))
+			: eq(cases.userId, userId);
+
 		const [records, countResult] = await Promise.all([
 			db.query.cases.findMany({
-				where: eq(cases.userId, userId),
+				where,
 				orderBy: (cases, { desc }) => [desc(cases.createdAt)],
 				limit: pageSize,
 				offset,
 			}),
-			db.select({ total: count() }).from(cases).where(eq(cases.userId, userId)),
+			db.select({ total: count() }).from(cases).where(where),
 		]);
-
-		const total = countResult[0]?.total ?? 0;
 
 		return {
 			data: records as CaseRecord[],
-			totalCount: Number(total),
+			totalCount: Number(countResult[0]?.total ?? 0),
 		};
+	}
+
+	async findAll({
+		page,
+		pageSize,
+		status,
+		assigned,
+	}: PaginationParams): Promise<PaginatedResult<CaseRecord>> {
+		const offset = (page - 1) * pageSize;
+
+		const conditions = [
+			status
+				? status === "OPEN"
+					? and(eq(cases.status, status), isNull(cases.judgeId))
+					: eq(cases.status, status)
+				: undefined,
+			assigned === true ? isNotNull(cases.judgeId) : undefined,
+			assigned === false ? isNull(cases.judgeId) : undefined,
+		].filter(Boolean) as Parameters<typeof and>;
+
+		const where = conditions.length > 0 ? and(...conditions) : undefined;
+
+		const [records, countResult] = await Promise.all([
+			db.query.cases.findMany({
+				where,
+				orderBy: (cases, { desc }) => [desc(cases.createdAt)],
+				limit: pageSize,
+				offset,
+			}),
+			db.select({ total: count() }).from(cases).where(where),
+		]);
+
+		return {
+			data: records as CaseRecord[],
+			totalCount: Number(countResult[0]?.total ?? 0),
+		};
+	}
+
+	async assignJudge(caseId: string, judgeId: string): Promise<void> {
+		await db
+			.update(cases)
+			.set({
+				judgeId,
+				status: "UNDER_REVIEW",
+				updatedAt: new Date(),
+			})
+			.where(eq(cases.id, caseId));
 	}
 }

@@ -5,7 +5,9 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
 import { requireAuth } from "./core/middlewares/auth.middleware";
+import { analyticsRouter } from "./modules/analytics/interface/analytics.router";
 import { casesRouter } from "./modules/cases/interface/cases.router";
+import { usersRouter } from "./modules/users/interface/users.router";
 
 const app = new Hono();
 
@@ -88,5 +90,7 @@ app.get("/", (c) => {
 });
 
 app.route("/cases", casesRouter);
+app.route("/users", usersRouter);
+app.route("/analytics", analyticsRouter);
 
 export { app };

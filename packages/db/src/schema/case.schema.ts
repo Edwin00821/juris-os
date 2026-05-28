@@ -10,6 +10,18 @@ import {
 	uuid,
 } from "drizzle-orm/pg-core";
 
+export const casePriorityEnum = pgEnum("case_priority", [
+	"low",
+	"medium",
+	"high",
+]);
+
+export const caseResolutionEnum = pgEnum("case_resolution", [
+	"admitted",
+	"conditioned",
+	"rejected",
+]);
+
 export const caseStatusEnum = pgEnum("case_status", [
 	"DRAFT",
 	"OPEN",
@@ -48,6 +60,9 @@ export const cases = pgTable(
 		counterpartyAddress: text("counterparty_address"),
 		counterpartyId: text("counterparty_id"),
 		status: caseStatusEnum("status").notNull().default("OPEN"),
+		priority: casePriorityEnum("priority").notNull().default("medium"),
+		// Set when status transitions to CLOSED: admitted | conditioned | rejected
+		resolution: caseResolutionEnum("resolution"),
 		// Stores the numeric part for easy sequencing queries
 		sequenceNumber: integer("sequence_number").notNull(),
 		year: integer("year").notNull(),

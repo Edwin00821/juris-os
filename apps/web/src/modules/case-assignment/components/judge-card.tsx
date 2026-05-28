@@ -19,7 +19,7 @@ interface JudgeCardProps {
 
 export function JudgeCard({
 	judge,
-	isAiMode,
+	isAiMode: _isAiMode,
 	canAssign,
 	isAssigning = false,
 	onAssign,

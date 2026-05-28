@@ -29,6 +29,20 @@
 			"when": 1779351427616,
 			"tag": "0003_military_dust",
 			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1779771302178,
+			"tag": "0004_pink_forge",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1779851646537,
+			"tag": "0005_perpetual_puma",
+			"breakpoints": true
 		}
 	]
 }

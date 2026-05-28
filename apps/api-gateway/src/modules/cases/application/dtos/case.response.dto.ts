@@ -1,4 +1,5 @@
 import type { InternalCaseStatus } from "../../domain/case.types";
+import type { JudgeCaseRow } from "../../infrastructure/repositories/case.repository";
 
 export type CaseResponseDto = {
 	id: string; // human-readable caseNumber shown in the UI (e.g. CIV-2025-0001)
@@ -14,6 +15,44 @@ export type PaginatedCasesDto = {
 	totalCount: number;
 	totalPages: number;
 };
+
+export type JudgeCaseListItemDto = {
+	id: string; // caseNumber
+	title: string;
+	category: string;
+	priority: string;
+	status: "UNDER_REVIEW" | "PENDING_RESOLUTION" | "CLOSED";
+	resolution: "admitted" | "conditioned" | "rejected" | null;
+	counterpartyName: string | null;
+	plaintiffName: string;
+	createdAt: string;
+	waitingDays: number;
+};
+
+export type PaginatedJudgeCasesDto = {
+	data: JudgeCaseListItemDto[];
+	totalCount: number;
+	totalPages: number;
+};
+
+export type CaseDetailDto = {
+	id: string; // caseNumber
+	title: string;
+	description: string | null;
+	category: string;
+	priority: string;
+	status: string;
+	resolution: "admitted" | "conditioned" | "rejected" | null;
+	counterpartyName: string | null;
+	plaintiffName: string;
+	judgeName: string | null;
+	incidentDate: string;
+	createdAt: string;
+	waitingDays: number;
+	judgeId: string | null;
+};
+
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 const STATUS_MAP: Record<InternalCaseStatus, CaseResponseDto["status"]> = {
 	DRAFT: "OPEN",
@@ -38,5 +77,41 @@ export const toCaseResponse = (case_: {
 	category: case_.category,
 	registrationDate: case_.createdAt.toISOString(),
 	status: STATUS_MAP[case_.status],
+	judgeId: case_.judgeId,
+});
+
+export const toJudgeCaseListItem = (
+	case_: JudgeCaseRow,
+): JudgeCaseListItemDto => ({
+	id: case_.caseNumber,
+	title: case_.title,
+	category: case_.category,
+	priority: case_.priority,
+	status: case_.status as JudgeCaseListItemDto["status"],
+	resolution: (case_.resolution as JudgeCaseListItemDto["resolution"]) ?? null,
+	counterpartyName: case_.counterpartyName,
+	plaintiffName: case_.plaintiffName,
+	createdAt: case_.createdAt.toISOString(),
+	waitingDays: Math.floor(
+		(Date.now() - case_.createdAt.getTime()) / MS_PER_DAY,
+	),
+});
+
+export const toCaseDetail = (case_: JudgeCaseRow): CaseDetailDto => ({
+	id: case_.caseNumber,
+	title: case_.title,
+	description: case_.description,
+	category: case_.category,
+	priority: case_.priority,
+	status: case_.status,
+	resolution: (case_.resolution as CaseDetailDto["resolution"]) ?? null,
+	counterpartyName: case_.counterpartyName,
+	plaintiffName: case_.plaintiffName,
+	judgeName: case_.judgeName,
+	incidentDate: case_.incidentDate,
+	createdAt: case_.createdAt.toISOString(),
+	waitingDays: Math.floor(
+		(Date.now() - case_.createdAt.getTime()) / MS_PER_DAY,
+	),
 	judgeId: case_.judgeId,
 });

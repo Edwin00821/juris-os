@@ -24,6 +24,7 @@ export function useAICopilot() {
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: messages/isTyping are used as scroll triggers
 	useEffect(() => {
 		if (chatContainerRef.current) {
 			chatContainerRef.current.scrollTop =

@@ -1,25 +1,20 @@
 import type { Metadata } from "next";
 import { guardJudge } from "@/lib/auth-guard";
+import CaseReviewPage from "@/modules/resolutions/pages/case-review-page";
 
 export const metadata: Metadata = {
 	title: "Revisión de Expediente | Juez - Juris OS",
 };
 
 interface CasePageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function JudgeCaseView({ params }: CasePageProps) {
 	await guardJudge();
+	const { id } = await params;
 
-	return (
-		<div className="p-8">
-			<h1 className="font-bold text-2xl">Expediente: {params.id}</h1>
-			<p className="mt-2 text-muted-foreground">
-				Vista detallada del caso y documentos adjuntos.
-			</p>
-		</div>
-	);
+	return <CaseReviewPage params={{ id }} />;
 }

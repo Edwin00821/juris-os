@@ -8,6 +8,7 @@ export function useFileUpload() {
 	const [documents, setDocuments] = useState<UploadedDocument[]>([]);
 	const [isDragging, setIsDragging] = useState(false);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: simulateUpload is stable (only uses setDocuments)
 	const handleFiles = useCallback(
 		(files: FileList | File[]) => {
 			const newDocs: UploadedDocument[] = [];

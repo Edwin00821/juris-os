@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { guardJudge } from "@/lib/auth-guard";
+import PendingCasesPage from "@/modules/assigned-cases/pages/pending-cases-page";
 
 export const metadata: Metadata = {
 	title: "Casos Pendientes | Juez - Juris OS",
@@ -9,12 +10,5 @@ export const metadata: Metadata = {
 export default async function JudgeDashboard() {
 	await guardJudge();
 
-	return (
-		<div className="p-8">
-			<h1 className="font-bold text-2xl">Casos Pendientes</h1>
-			<p className="mt-2 text-muted-foreground">
-				Bandeja de expedientes asignados por revisar.
-			</p>
-		</div>
-	);
+	return <PendingCasesPage />;
 }

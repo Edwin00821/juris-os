@@ -1,11 +1,15 @@
 import type { Context } from "hono";
 import { created, fail, ok } from "../../../core/http/response.helper";
-import { toCaseResponse } from "../application/dtos/case.response.dto";
+import {
+	toCaseDetail,
+	toCaseResponse,
+} from "../application/dtos/case.response.dto";
 import type { CreateCaseDto } from "../application/dtos/create-case.dto";
 import { AssignCaseUseCase } from "../application/use-cases/assign-case.use-case";
 import { CreateCaseUseCase } from "../application/use-cases/create-case.use-case";
 import { ListAllCasesUseCase } from "../application/use-cases/list-all-cases.use-case";
 import { ListCasesUseCase } from "../application/use-cases/list-cases.use-cases";
+import { ListJudgeCasesUseCase } from "../application/use-cases/list-judge-cases.use-case";
 import type { InternalCaseStatus } from "../domain/case.types";
 import type { PaginationParams } from "../infrastructure/repositories/case.repository";
 import { PgCaseRepository } from "../infrastructure/repositories/pg-case.repository";
@@ -14,6 +18,7 @@ const repo = new PgCaseRepository();
 const createCase = new CreateCaseUseCase(repo);
 const listCases = new ListCasesUseCase(repo);
 const listAllCases = new ListAllCasesUseCase(repo);
+const listJudgeCases = new ListJudgeCasesUseCase(repo);
 const assignCaseUseCase = new AssignCaseUseCase(repo);
 
 const STATUS_FILTER_MAP: Record<string, InternalCaseStatus> = {
@@ -38,6 +43,7 @@ export const casesController = {
 			pageSize = "10",
 			status = "",
 			assigned = "",
+			closed = "",
 		} = c.req.query();
 
 		const pagination: PaginationParams = {
@@ -46,12 +52,18 @@ export const casesController = {
 			status: STATUS_FILTER_MAP[status.toUpperCase()],
 			assigned:
 				assigned === "true" ? true : assigned === "false" ? false : undefined,
+			closed: closed === "true" ? true : closed === "false" ? false : undefined,
 		};
 
-		const result =
-			user.role === "admin"
-				? await listAllCases.execute(pagination)
-				: await listCases.execute(user.id, pagination);
+		let result: { data: unknown[]; totalCount: number; totalPages: number };
+
+		if (user.role === "admin") {
+			result = await listAllCases.execute(pagination);
+		} else if (user.role === "judge") {
+			result = await listJudgeCases.execute(user.id, pagination);
+		} else {
+			result = await listCases.execute(user.id, pagination);
+		}
 
 		return ok(c, result.data, 200, {
 			totalCount: result.totalCount,
@@ -64,19 +76,28 @@ export const casesController = {
 
 	async getOne(c: Context) {
 		const { id } = c.req.param();
+		const user = c.get("user");
+
+		if (user.role === "judge") {
+			// biome-ignore lint/style/noNonNullAssertion: route param is always present
+			const record = await repo.findDetailByCaseNumber(id!);
+			if (!record) {
+				return fail(c, "CASE_NOT_FOUND", "Case not found.", 404);
+			}
+			return ok(c, toCaseDetail(record));
+		}
 
 		// biome-ignore lint/style/noNonNullAssertion: route param is always present
 		const record = await repo.findByCaseNumber(id!);
-
 		if (!record) {
 			return fail(c, "CASE_NOT_FOUND", "Case not found.", 404);
 		}
-
 		return ok(c, toCaseResponse(record));
 	},
 
 	async assignCase(c: Context) {
 		const user = c.get("user");
+		// biome-ignore lint/style/noNonNullAssertion: route param is always present
 		const caseNumber = c.req.param("id")!;
 		const { judgeId } = c.req.valid("json" as never);
 

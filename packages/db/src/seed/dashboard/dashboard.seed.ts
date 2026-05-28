@@ -12,6 +12,7 @@ type CaseStatus =
 	| "CLOSED"
 	| "ERROR";
 type CaseCategory = "criminal" | "family" | "labor";
+type CaseResolution = "admitted" | "conditioned" | "rejected";
 
 const PREFIX: Record<CaseCategory, string> = {
 	criminal: "CRM",
@@ -62,8 +63,9 @@ interface SeedCase {
 	/** email of the judge assigned; undefined = unassigned */
 	judgeEmail?: string;
 	createdAt: Date;
-	/** Only relevant for CLOSED cases */
 	updatedAt?: Date;
+	/** Only for CLOSED cases */
+	resolution?: CaseResolution;
 }
 
 function d(iso: string) {
@@ -81,6 +83,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-12-10",
 		counterpartyName: "Ministerio Público",
 		status: "CLOSED",
+		resolution: "rejected",
 		judgeEmail: "mgonzalez@juris-os.com",
 		createdAt: d("2026-01-15"),
 		updatedAt: d("2026-02-05"),
@@ -93,6 +96,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-11-20",
 		counterpartyName: "Cónyuge",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "crodriguez@juris-os.com",
 		createdAt: d("2026-01-20"),
 		updatedAt: d("2026-03-10"),
@@ -105,6 +109,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-12-01",
 		counterpartyName: "Manufacturas del Norte S.A.",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "amartinez@juris-os.com",
 		createdAt: d("2026-01-25"),
 		updatedAt: d("2026-02-28"),
@@ -131,6 +136,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-10-01",
 		counterpartyName: "Progenitor",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "crodriguez@juris-os.com",
 		createdAt: d("2026-02-05"),
 		updatedAt: d("2026-03-15"),
@@ -167,6 +173,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-11-05",
 		counterpartyName: "TechGlobal S.A.",
 		status: "CLOSED",
+		resolution: "conditioned",
 		judgeEmail: "amartinez@juris-os.com",
 		createdAt: d("2026-02-20"),
 		updatedAt: d("2026-04-01"),
@@ -193,6 +200,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2025-12-20",
 		counterpartyName: "Ministerio Público",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "mgonzalez@juris-os.com",
 		createdAt: d("2026-03-05"),
 		updatedAt: d("2026-04-10"),
@@ -240,6 +248,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2026-01-15",
 		counterpartyName: "Logística Express Ltda.",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "amartinez@juris-os.com",
 		createdAt: d("2026-03-25"),
 		updatedAt: d("2026-05-05"),
@@ -300,6 +309,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2026-03-10",
 		counterpartyName: "Familia paterna",
 		status: "CLOSED",
+		resolution: "admitted",
 		judgeEmail: "crodriguez@juris-os.com",
 		createdAt: d("2026-04-22"),
 		updatedAt: d("2026-05-10"),
@@ -337,6 +347,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2026-04-15",
 		counterpartyName: "Progenitor",
 		status: "CLOSED",
+		resolution: "conditioned",
 		judgeEmail: "crodriguez@juris-os.com",
 		createdAt: d("2026-05-03"),
 		updatedAt: d("2026-05-15"),
@@ -360,6 +371,7 @@ const SEED_CASES: SeedCase[] = [
 		incidentDate: "2026-04-28",
 		counterpartyName: "Ministerio Público",
 		status: "CLOSED",
+		resolution: "rejected",
 		judgeEmail: "mgonzalez@juris-os.com",
 		createdAt: d("2026-05-07"),
 		updatedAt: d("2026-05-18"),
@@ -434,6 +446,133 @@ const SEED_CASES: SeedCase[] = [
 		createdAt: d("2026-05-22"),
 		updatedAt: d("2026-05-22"),
 	},
+
+	// ── Casos para judge@juris-os.com ─────────────────────────────────────
+	{
+		title: "Demanda por Responsabilidad Civil Extracontractual",
+		description:
+			"Ciudadano reclama daños y perjuicios por accidente de tránsito causado por negligencia.",
+		category: "criminal",
+		incidentDate: "2026-01-08",
+		counterpartyName: "Ministerio Público",
+		status: "UNDER_REVIEW",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-02-01"),
+		updatedAt: d("2026-02-01"),
+	},
+	{
+		title: "Violación de Contrato Colectivo de Trabajo",
+		description:
+			"Sindicato interpone queja por incumplimiento de cláusulas sobre jornada laboral.",
+		category: "labor",
+		incidentDate: "2026-01-20",
+		counterpartyName: "Empresa Metalúrgica del Valle",
+		status: "PENDING_RESOLUTION",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-02-15"),
+		updatedAt: d("2026-02-15"),
+	},
+	{
+		title: "Disputa de Patria Potestad entre Progenitores",
+		description:
+			"Progenitores en litigio por la patria potestad exclusiva de menor de 7 años.",
+		category: "family",
+		incidentDate: "2026-02-10",
+		counterpartyName: "Progenitor custodio",
+		status: "UNDER_REVIEW",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-03-01"),
+		updatedAt: d("2026-03-01"),
+	},
+	{
+		title: "Portación Ilegal de Arma de Fuego",
+		description:
+			"Imputado detenido con arma sin registro. Solicita sustitución de medida cautelar.",
+		category: "criminal",
+		incidentDate: "2026-02-25",
+		counterpartyName: "Ministerio Público",
+		status: "PENDING_RESOLUTION",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-03-10"),
+		updatedAt: d("2026-03-10"),
+	},
+	{
+		title: "Acoso Escolar con Lesiones a Menor",
+		description:
+			"Padres de menor agredido denuncian a familia del agresor por daños físicos y psicológicos.",
+		category: "criminal",
+		incidentDate: "2026-03-05",
+		counterpartyName: "Ministerio Público",
+		status: "UNDER_REVIEW",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-03-20"),
+		updatedAt: d("2026-03-20"),
+	},
+	{
+		title: "Rescisión de Contrato por Incumplimiento de Obra",
+		description:
+			"Constructor no terminó obra en plazo acordado. Propietario pide reembolso y penalización.",
+		category: "labor",
+		incidentDate: "2025-12-10",
+		counterpartyName: "Constructora Velázquez e Hijos",
+		status: "CLOSED",
+		resolution: "admitted",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-01-10"),
+		updatedAt: d("2026-03-05"),
+	},
+	{
+		title: "Divorcio Contencioso con Disputa de Bienes",
+		description:
+			"Cónyuge solicita disolución del vínculo matrimonial y liquidación de bienes compartidos.",
+		category: "family",
+		incidentDate: "2025-10-15",
+		counterpartyName: "Cónyuge",
+		status: "CLOSED",
+		resolution: "admitted",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-01-18"),
+		updatedAt: d("2026-02-28"),
+	},
+	{
+		title: "Denuncia por Lesiones Dolosas en Riña",
+		description:
+			"Víctima de pelea en vía pública solicita sanción al agresor identificado por testigos.",
+		category: "criminal",
+		incidentDate: "2025-11-30",
+		counterpartyName: "Ministerio Público",
+		status: "CLOSED",
+		resolution: "rejected",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-02-08"),
+		updatedAt: d("2026-04-15"),
+	},
+	{
+		title: "Reintegro Salarial por Suspensión Injustificada",
+		description:
+			"Trabajador suspendido sin causa legal reclama salarios caídos y daños al expediente laboral.",
+		category: "labor",
+		incidentDate: "2026-01-05",
+		counterpartyName: "Supermercados del Pacífico S.A.",
+		status: "CLOSED",
+		resolution: "conditioned",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-02-20"),
+		updatedAt: d("2026-04-22"),
+	},
+	{
+		title: "Impugnación de Testamento por Vicios de Consentimiento",
+		description:
+			"Heredero alega que testador firmó bajo presión en sus últimas semanas de vida.",
+		category: "family",
+		incidentDate: "2025-09-01",
+		counterpartyName: "Heredero testamentario",
+		status: "CLOSED",
+		resolution: "conditioned",
+		judgeEmail: "judge@juris-os.com",
+		createdAt: d("2026-02-25"),
+		updatedAt: d("2026-05-01"),
+	},
 ];
 
 export async function runDashboardSeed() {
@@ -506,6 +645,7 @@ export async function runDashboardSeed() {
 				incidentDate: c.incidentDate,
 				counterpartyName: c.counterpartyName,
 				status: c.status,
+				resolution: c.resolution ?? null,
 				judgeId: judgeId ?? null,
 				createdAt: c.createdAt,
 				updatedAt: c.updatedAt ?? c.createdAt,

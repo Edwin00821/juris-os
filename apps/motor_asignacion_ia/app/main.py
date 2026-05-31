@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware # 1. Importamos el middleware necesario
 from pydantic import BaseModel
 from typing import List
 from .servicios.heuristica import sugerir_jueces_heuristica
 from .servicios.ml_predict import obtener_mejor_asignacion_hibrida
 
 app = FastAPI(title="Motor de Justicia Soberana IA")
+
+# Configuración de CORS añadida justo después de instanciar la app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite recibir solicitudes de cualquier origen externo (como Vercel)
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos HTTP (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 # Definición de Schemas (Pydantic)
 class CasoInput(BaseModel):

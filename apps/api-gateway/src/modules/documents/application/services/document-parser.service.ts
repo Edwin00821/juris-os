@@ -6,8 +6,8 @@ import type { DocumentUploadedEvent } from "../../../../core/events/event-types"
 import type { IDocumentRepository } from "../../infrastructure/repositories/document.repository";
 
 const require = createRequire(import.meta.url);
-// biome-ignore lint/suspicious/noExplicitAny: pdf-parse has no ESM default export
-const pdfParse = require("pdf-parse") as (
+// pdf-parse has no ESM default export
+const pdfParse = require("pdf-parse-fork") as (
 	buffer: Buffer,
 ) => Promise<{ text: string }>;
 

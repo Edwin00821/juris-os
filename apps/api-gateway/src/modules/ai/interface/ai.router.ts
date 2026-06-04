@@ -7,6 +7,7 @@ import {
 import { copilotQuerySchema } from "../application/dtos/copilot-query.dto";
 import { draftAssistQuerySchema } from "../application/dtos/draft-assist-query.dto";
 import { generateDocumentQuerySchema } from "../application/dtos/generate-document-query.dto";
+import { suggestJudgeQuerySchema } from "../application/dtos/suggest-judge-query.dto";
 import { aiController } from "./ai.controller";
 
 const aiRouter = new Hono();
@@ -30,6 +31,13 @@ aiRouter.post(
 	"/generate-document",
 	validate("json", generateDocumentQuerySchema),
 	aiController.generateDocument,
+);
+
+aiRouter.post(
+	"/suggest-judge",
+	requireRole("admin"),
+	validate("json", suggestJudgeQuerySchema),
+	aiController.suggestJudge,
 );
 
 export { aiRouter };

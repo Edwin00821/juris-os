@@ -10,6 +10,8 @@ export const env = createEnv({
 			.enum(["development", "production", "test"])
 			.default("development"),
 		GEMINI_API_KEY: z.string().min(1),
+		// Base URL of the Python FastAPI assignment engine (motor_asignacion_ia).
+		MOTOR_IA_URL: z.url().default("http://localhost:8000"),
 	},
 	client: {},
 	clientPrefix: "NEXT_PUBLIC_",

@@ -11,6 +11,7 @@ export class PgUserRepository {
 				id: user.id,
 				name: user.name,
 				email: user.email,
+				specialty: user.specialty,
 				activeCases: sql<number>`cast(count(${cases.id}) as int)`,
 			})
 			.from(user)
@@ -19,6 +20,6 @@ export class PgUserRepository {
 				and(eq(cases.judgeId, user.id), eq(cases.status, "UNDER_REVIEW")),
 			)
 			.where(eq(user.role, "judge"))
-			.groupBy(user.id, user.name, user.email);
+			.groupBy(user.id, user.name, user.email, user.specialty);
 	}
 }

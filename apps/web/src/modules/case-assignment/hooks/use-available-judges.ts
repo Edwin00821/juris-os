@@ -5,6 +5,7 @@ export interface Judge {
 	id: string;
 	name: string;
 	email: string;
+	specialty: "criminal" | "family" | "labor" | null;
 	activeCases: number;
 }
 

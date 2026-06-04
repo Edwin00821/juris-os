@@ -8,6 +8,7 @@ export async function createAuthUser(data: {
 	email: string;
 	role: string;
 	password?: string;
+	specialty?: "criminal" | "family" | "labor";
 }) {
 	const userId = nanoid();
 	const hashedPassword = await hashPassword(data.password ?? "12345678");
@@ -20,6 +21,7 @@ export async function createAuthUser(data: {
 			email: data.email,
 			emailVerified: true,
 			role: data.role,
+			specialty: data.specialty,
 			image: undefined,
 			createdAt: new Date(),
 			updatedAt: new Date(),

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from faker import Faker
 import random
-import os 
+import os
 
 # Prueba de VS Code con Linux
 # Prueba de VS Code con Windows
@@ -12,20 +12,26 @@ import os
 fake = Faker('es_MX') 
 
 # Variables extraídas del dominio del proyecto
-CATEGORIAS_LEGALES = [
+'''CATEGORIAS_LEGALES = [
     'Derechos Civiles', 
     'Justicia Penal', 
     'Tribunal de Familia', 
     'Disputas Comerciales', 
     'Privacidad y Tecnología'
+]'''
+
+CATEGORIAS_LEGALES = [
+    'Laboral',
+    'Familiar',
+    'Penal'
 ]
 
 JUECES = [
-    {'id': 'J-001', 'nombre': 'Hon. Elena Jacobs', 'especialidad': 'Derechos Civiles'},
-    {'id': 'J-002', 'nombre': 'Hon. Marcus Wright', 'especialidad': 'Justicia Penal'},
-    {'id': 'J-003', 'nombre': 'Hon. Sophia Chen', 'especialidad': 'Disputas Comerciales'},
-    {'id': 'J-004', 'nombre': 'Hon. David Miller', 'especialidad': 'Tribunal de Familia'},
-    {'id': 'J-005', 'nombre': 'Hon. Alistair Thorne', 'especialidad': 'Privacidad y Tecnología'}
+    {'id': 'J-001', 'nombre': 'Hon. Elena Jacobs', 'especialidad': 'Laboral'},
+    {'id': 'J-002', 'nombre': 'Hon. Marcus Wright', 'especialidad': 'Familiar'},
+    {'id': 'J-003', 'nombre': 'Hon. Sophia Chen', 'especialidad': 'Penal'},
+    {'id': 'J-004', 'nombre': 'Hon. David Miller', 'especialidad': 'Familiar'},
+    {'id': 'J-005', 'nombre': 'Hon. Alistair Thorne', 'especialidad': 'Penal'}
 ]
 
 def generar_datos_simulados(num_casos=5000):

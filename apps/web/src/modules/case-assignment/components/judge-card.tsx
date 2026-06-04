@@ -4,14 +4,13 @@ import { CheckCircle2, Loader2, Timer, Users } from "lucide-react";
 export interface Judge {
 	id: string;
 	name: string;
-	specialty: string; // email for now
+	specialty: string;
 	workload: number; // 0–100 derived from activeCases
 	activeCases: number;
 }
 
 interface JudgeCardProps {
 	judge: Judge;
-	isAiMode: boolean;
 	canAssign: boolean;
 	isAssigning?: boolean;
 	onAssign: (judgeId: string) => void;
@@ -19,7 +18,6 @@ interface JudgeCardProps {
 
 export function JudgeCard({
 	judge,
-	isAiMode: _isAiMode,
 	canAssign,
 	isAssigning = false,
 	onAssign,

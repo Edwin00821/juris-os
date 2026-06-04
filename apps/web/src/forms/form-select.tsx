@@ -30,6 +30,9 @@ export function FormSelect({
 	const field = useFieldContext<string>();
 	const isInvalid =
 		field.state.meta.isTouched && field.state.meta.errors.length > 0;
+	const selectedLabel = options.find(
+		(opt) => opt.value === field.state.value,
+	)?.label;
 
 	return (
 		<Field
@@ -59,7 +62,7 @@ export function FormSelect({
 					size="lg"
 					className={`rounded-md border-transparent bg-surface-container-highest p-4 transition-colors focus:border-primary focus:ring-0 ${className || ""}`}
 				>
-					<SelectValue placeholder={placeholder} />
+					<SelectValue placeholder={placeholder}>{selectedLabel}</SelectValue>
 				</SelectTrigger>
 
 				<SelectContent>

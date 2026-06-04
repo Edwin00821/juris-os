@@ -14,7 +14,8 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 import { useActiveCases } from "../hooks/use-active-cases";
@@ -24,6 +25,7 @@ import type { Case } from "../types/case.types";
 import { CaseStatusBadge } from "./case-status-badge";
 
 export function ActiveCasesTable() {
+	const router = useRouter();
 	const { page, pageSize, setPagination } = useCaseTableParams();
 
 	const { data, isLoading, isFetching } = useActiveCases({ page, pageSize });
@@ -49,19 +51,19 @@ export function ActiveCasesTable() {
 				),
 			},
 			{
+				accessorKey: "status",
+				header: "Estado",
+				cell: (info) => (
+					<CaseStatusBadge status={info.getValue() as Case["status"]} />
+				),
+			},
+			{
 				accessorKey: "registrationDate",
 				header: "Fecha de Registro",
 				cell: (info) => (
 					<span className="text-on-surface-variant text-sm">
 						{info.getValue() as string}
 					</span>
-				),
-			},
-			{
-				accessorKey: "status",
-				header: "Estado",
-				cell: (info) => (
-					<CaseStatusBadge status={info.getValue() as Case["status"]} />
 				),
 			},
 		],
@@ -78,21 +80,13 @@ export function ActiveCasesTable() {
 
 	return (
 		<div className="overflow-hidden rounded-md bg-surface-container-lowest p-6">
-			<div className="mb-6 flex items-center justify-between">
-				<div className="flex items-center gap-3">
-					<h3 className="font-bold font-headline text-primary">
-						Libro Mayor de Casos Activos
-					</h3>
-					{isFetching && (
-						<span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-					)}
-				</div>
-				<button
-					type="button"
-					className="flex items-center gap-1 font-semibold text-primary text-sm transition-opacity hover:opacity-80"
-				>
-					Ver Archivos <ArrowRight className="size-4" />
-				</button>
+			<div className="mb-6 flex items-center gap-3">
+				<h3 className="font-bold font-headline text-primary">
+					Libro Mayor de Casos Activos
+				</h3>
+				{isFetching && (
+					<span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+				)}
 			</div>
 
 			<div className="overflow-x-auto">
@@ -131,6 +125,9 @@ export function ActiveCasesTable() {
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
+									onClick={() =>
+										router.push(`/citizen/cases/${row.original.id}`)
+									}
 									className="cursor-pointer border-outline-variant/50 border-b transition-colors last:border-0 hover:bg-surface-container"
 								>
 									{row.getVisibleCells().map((cell) => (

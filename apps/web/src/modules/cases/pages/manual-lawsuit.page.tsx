@@ -80,12 +80,12 @@ export function ManualLawsuitPage() {
 						Archivos
 					</span>
 				</div>
-				<div className="mx-1 h-0.5 flex-1 bg-outline-variant" />
+				<div className="mx-1 h-0.5 flex-1 bg-primary" />
 				<div className="flex flex-col items-center gap-1">
-					<div className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-container-high font-bold text-on-surface-variant text-sm">
+					<div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary font-bold text-sm text-white shadow-sm">
 						3
 					</div>
-					<span className="font-bold text-[10px] text-on-surface-variant uppercase tracking-wider">
+					<span className="font-bold text-[10px] text-primary uppercase tracking-wider">
 						Contraparte
 					</span>
 				</div>

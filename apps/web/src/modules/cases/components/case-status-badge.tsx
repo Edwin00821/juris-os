@@ -9,12 +9,14 @@ export function CaseStatusBadge({ status }: CaseStatusBadgeProps) {
 		OPEN: "bg-primary-fixed text-on-primary-fixed",
 		UNDER_REVIEW: "bg-secondary-container text-on-secondary-container",
 		PENDING_RESOLUTION: "bg-error-container text-error-container-foreground",
+		CLOSED: "bg-tertiary-container text-on-tertiary-container",
 	};
 
 	const labels: Record<CaseStatus, string> = {
 		OPEN: "Abierto",
 		UNDER_REVIEW: "En Revisión",
 		PENDING_RESOLUTION: "Resolución Pendiente",
+		CLOSED: "Cerrado",
 	};
 
 	return (

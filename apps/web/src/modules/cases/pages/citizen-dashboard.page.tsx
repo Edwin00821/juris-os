@@ -1,8 +1,8 @@
-// src/modules/cases/views/citizen-dashboard.view.tsx
 "use client";
 
 import { ActiveCasesTable } from "../components/active-cases-table";
 import { CitizenProfileCard } from "../components/citizen-profile-card";
+import { DraftCasesList } from "../components/draft-cases-list";
 import { LiveUpdatesFeed } from "../components/live-updates-feed";
 
 export function CitizenDashboardPage() {
@@ -26,6 +26,7 @@ export function CitizenDashboardPage() {
 				</section>
 
 				<div className="grid grid-cols-1 gap-6">
+					<DraftCasesList />
 					<ActiveCasesTable />
 				</div>
 			</div>

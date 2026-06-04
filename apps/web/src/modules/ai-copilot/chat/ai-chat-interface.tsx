@@ -12,6 +12,7 @@ import { Textarea } from "@juris-os/ui/components/textarea";
 import { cn } from "@juris-os/ui/lib/utils";
 import { Bot, RefreshCw, Send } from "lucide-react";
 import type * as React from "react";
+import ReactMarkdown from "react-markdown";
 import type { useAICopilot } from "../hooks/use-ai-copilot";
 
 interface AIChatInterfaceProps {
@@ -95,9 +96,35 @@ export function AIChatInterface({ copilot, className }: AIChatInterfaceProps) {
 											: "rounded-tr-none bg-primary text-white",
 									)}
 								>
-									<p className="whitespace-pre-wrap text-sm leading-relaxed">
-										{msg.text}
-									</p>
+									<div className="prose prose-sm dark:prose-invert max-w-none break-words text-sm leading-relaxed">
+										{msg.role === "bot" ? (
+											<ReactMarkdown
+												components={{
+													p: ({ children }) => (
+														<p className="m-0 mb-2 last:mb-0">{children}</p>
+													),
+													strong: ({ children }) => (
+														<strong className="font-semibold">
+															{children}
+														</strong>
+													),
+													em: ({ children }) => (
+														<em className="italic">{children}</em>
+													),
+													ul: ({ children }) => (
+														<ul className="m-0 ml-4 list-disc">{children}</ul>
+													),
+													li: ({ children }) => (
+														<li className="m-0">{children}</li>
+													),
+												}}
+											>
+												{msg.text}
+											</ReactMarkdown>
+										) : (
+											<p className="m-0 whitespace-pre-wrap">{msg.text}</p>
+										)}
+									</div>
 									<span
 										className={cn(
 											"mt-2 block font-medium text-[10px]",

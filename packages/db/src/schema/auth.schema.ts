@@ -1,5 +1,20 @@
 import { relations } from "drizzle-orm";
-import { boolean, index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	index,
+	pgEnum,
+	pgTable,
+	text,
+	timestamp,
+} from "drizzle-orm/pg-core";
+
+// Judge area of expertise. Mirrors the case category vocabulary so the
+// assignment engine can match a judge's specialty against a case's category.
+export const judgeSpecialtyEnum = pgEnum("judge_specialty", [
+	"criminal",
+	"family",
+	"labor",
+]);
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
@@ -11,6 +26,9 @@ export const user = pgTable("user", {
 	onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
 
 	role: text("role"),
+
+	// Only set for judges; null for citizens/admins.
+	specialty: judgeSpecialtyEnum("specialty"),
 	banned: boolean("banned").default(false),
 	banReason: text("ban_reason"),
 	banExpires: timestamp("ban_expires"),

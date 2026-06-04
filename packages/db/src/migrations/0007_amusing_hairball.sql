@@ -1,0 +1,1 @@
+ALTER TABLE "cases" ADD COLUMN "resolution_text" text;

@@ -18,6 +18,35 @@ const AUTH_USERS = [
 		email: "judge@juris-os.com",
 		role: "judge",
 		password: "Judge1234!",
+		specialty: "criminal" as const,
+	},
+	{
+		name: "Hon. Elena Jacobs",
+		email: "elena.jacobs@juris-os.com",
+		role: "judge",
+		password: "Judge1234!",
+		specialty: "labor" as const,
+	},
+	{
+		name: "Hon. Marcus Wright",
+		email: "marcus.wright@juris-os.com",
+		role: "judge",
+		password: "Judge1234!",
+		specialty: "criminal" as const,
+	},
+	{
+		name: "Hon. Sophia Chen",
+		email: "sophia.chen@juris-os.com",
+		role: "judge",
+		password: "Judge1234!",
+		specialty: "family" as const,
+	},
+	{
+		name: "Hon. David Miller",
+		email: "david.miller@juris-os.com",
+		role: "judge",
+		password: "Judge1234!",
+		specialty: "labor" as const,
 	},
 ];
 

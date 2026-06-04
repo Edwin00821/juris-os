@@ -43,6 +43,13 @@
 			"when": 1779851646537,
 			"tag": "0005_perpetual_puma",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1779934122271,
+			"tag": "0006_lush_thunderball",
+			"breakpoints": true
 		}
 	]
 }

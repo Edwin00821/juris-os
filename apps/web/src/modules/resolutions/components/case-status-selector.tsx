@@ -1,16 +1,21 @@
 "use client";
 
 import { cn } from "@juris-os/ui/lib/utils";
-import { CheckCircle, Clock } from "lucide-react";
-
-type ResolutionAction = "PENDING_RESOLUTION" | "CLOSED";
+import { Clock, Search } from "lucide-react";
+import type { WorkingCaseStatus } from "../hooks/use-update-case-status";
 
 const OPTIONS: {
-	value: ResolutionAction;
+	value: WorkingCaseStatus;
 	label: string;
 	icon: React.ReactNode;
 	className: string;
 }[] = [
+	{
+		value: "UNDER_REVIEW",
+		label: "En revisión",
+		icon: <Search className="h-3.5 w-3.5" />,
+		className: "bg-blue-50 text-blue-800 border-blue-300 hover:bg-blue-100",
+	},
 	{
 		value: "PENDING_RESOLUTION",
 		label: "Pend. resolución",
@@ -18,27 +23,23 @@ const OPTIONS: {
 		className:
 			"bg-purple-50 text-purple-800 border-purple-300 hover:bg-purple-100",
 	},
-	{
-		value: "CLOSED",
-		label: "Cerrar caso",
-		icon: <CheckCircle className="h-3.5 w-3.5" />,
-		className: "bg-green-50 text-green-800 border-green-300 hover:bg-green-100",
-	},
 ];
 
 interface CaseStatusSelectorProps {
-	value: string | null;
-	onChange: (value: string) => void;
+	value: WorkingCaseStatus | null;
+	onChange: (value: WorkingCaseStatus) => void;
+	disabled?: boolean;
 }
 
 export function CaseStatusSelector({
 	value,
 	onChange,
+	disabled,
 }: CaseStatusSelectorProps) {
 	return (
 		<div className="flex items-center gap-3">
 			<span className="font-bold text-slate-500 text-xs uppercase tracking-widest">
-				Acción:
+				Estado:
 			</span>
 			<div className="flex gap-2">
 				{OPTIONS.map((opt) => (
@@ -46,8 +47,9 @@ export function CaseStatusSelector({
 						type="button"
 						key={opt.value}
 						onClick={() => onChange(opt.value)}
+						disabled={disabled || value === opt.value}
 						className={cn(
-							"flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-bold text-xs transition-all",
+							"flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-bold text-xs transition-all disabled:cursor-default",
 							opt.className,
 							value === opt.value
 								? "scale-105 opacity-100"

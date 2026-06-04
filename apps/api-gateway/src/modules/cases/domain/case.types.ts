@@ -8,6 +8,9 @@ export type InternalCaseStatus =
 	| "CLOSED"
 	| "ERROR";
 
+// Verdict recorded when a case is closed.
+export type CaseResolution = "admitted" | "conditioned" | "rejected";
+
 export type CaseCategory = "criminal" | "family" | "labor";
 
 export type AiMode = "AI_ASSISTED" | "MANUAL";

@@ -6,7 +6,9 @@ import {
 	requireRole,
 } from "../../../core/middlewares/auth.middleware";
 import { assignCaseSchema } from "../application/dtos/assign-case.dto";
+import { closeCaseSchema } from "../application/dtos/close-case.dto";
 import { createCaseSchema } from "../application/dtos/create-case.dto";
+import { updateCaseStatusSchema } from "../application/dtos/update-case-status.dto";
 
 import { casesController } from "./cases.controller";
 
@@ -29,6 +31,20 @@ casesRouter.patch(
 	requireRole("admin"),
 	validate("json", assignCaseSchema),
 	casesController.assignCase,
+);
+
+casesRouter.patch(
+	"/:id/status",
+	requireRole("judge"),
+	validate("json", updateCaseStatusSchema),
+	casesController.updateStatus,
+);
+
+casesRouter.patch(
+	"/:id/close",
+	requireRole("judge"),
+	validate("json", closeCaseSchema),
+	casesController.closeCase,
 );
 
 export { casesRouter };

@@ -4,12 +4,16 @@ import {
 	toCaseDetail,
 	toCaseResponse,
 } from "../application/dtos/case.response.dto";
+import type { CloseCaseDto } from "../application/dtos/close-case.dto";
 import type { CreateCaseDto } from "../application/dtos/create-case.dto";
+import type { UpdateCaseStatusDto } from "../application/dtos/update-case-status.dto";
 import { AssignCaseUseCase } from "../application/use-cases/assign-case.use-case";
+import { CloseCaseUseCase } from "../application/use-cases/close-case.use-case";
 import { CreateCaseUseCase } from "../application/use-cases/create-case.use-case";
 import { ListAllCasesUseCase } from "../application/use-cases/list-all-cases.use-case";
 import { ListCasesUseCase } from "../application/use-cases/list-cases.use-cases";
 import { ListJudgeCasesUseCase } from "../application/use-cases/list-judge-cases.use-case";
+import { UpdateCaseStatusUseCase } from "../application/use-cases/update-case-status.use-case";
 import type { InternalCaseStatus } from "../domain/case.types";
 import type { PaginationParams } from "../infrastructure/repositories/case.repository";
 import { PgCaseRepository } from "../infrastructure/repositories/pg-case.repository";
@@ -20,6 +24,8 @@ const listCases = new ListCasesUseCase(repo);
 const listAllCases = new ListAllCasesUseCase(repo);
 const listJudgeCases = new ListJudgeCasesUseCase(repo);
 const assignCaseUseCase = new AssignCaseUseCase(repo);
+const closeCaseUseCase = new CloseCaseUseCase(repo);
+const updateCaseStatusUseCase = new UpdateCaseStatusUseCase(repo);
 
 const STATUS_FILTER_MAP: Record<string, InternalCaseStatus> = {
 	OPEN: "OPEN",
@@ -108,5 +114,38 @@ export const casesController = {
 		});
 
 		return ok(c, { message: `Case ${caseNumber} assigned successfully` });
+	},
+
+	async closeCase(c: Context) {
+		const user = c.get("user");
+		// biome-ignore lint/style/noNonNullAssertion: route param is always present
+		const caseNumber = c.req.param("id")!;
+		const { resolution, resolutionText } = c.req.valid(
+			"json" as never,
+		) as CloseCaseDto;
+
+		await closeCaseUseCase.execute({
+			caseNumber,
+			resolution,
+			resolutionText,
+			requestedBy: user.id,
+		});
+
+		return ok(c, { message: `Case ${caseNumber} closed successfully` });
+	},
+
+	async updateStatus(c: Context) {
+		const user = c.get("user");
+		// biome-ignore lint/style/noNonNullAssertion: route param is always present
+		const caseNumber = c.req.param("id")!;
+		const { status } = c.req.valid("json" as never) as UpdateCaseStatusDto;
+
+		await updateCaseStatusUseCase.execute({
+			caseNumber,
+			status,
+			requestedBy: user.id,
+		});
+
+		return ok(c, { message: `Case ${caseNumber} status updated to ${status}` });
 	},
 };

@@ -13,7 +13,7 @@ import {
 	isNull,
 } from "drizzle-orm";
 import type { CreateCaseDto } from "../../application/dtos/create-case.dto";
-import type { CaseCategory } from "../../domain/case.types";
+import type { CaseCategory, CaseResolution } from "../../domain/case.types";
 import type {
 	ICaseRepository,
 	JudgeCaseRow,
@@ -58,11 +58,31 @@ export class PgCaseRepository implements ICaseRepository {
 		return (record as CaseRecord) ?? null;
 	}
 
-	async findByCaseNumber(caseNumber: string): Promise<CaseRecord | null> {
-		const record = await db.query.cases.findFirst({
-			where: and(eq(cases.caseNumber, caseNumber)),
-		});
-		return (record as CaseRecord) ?? null;
+	async findByCaseNumber(
+		caseNumber: string,
+	): Promise<
+		| (CaseRecord & { judgeName: string | null; judgeEmail: string | null })
+		| null
+	> {
+		const records = await db
+			.select({
+				...getTableColumns(cases),
+				judgeName: judgeUser.name,
+				judgeEmail: judgeUser.email,
+			})
+			.from(cases)
+			.leftJoin(judgeUser, eq(cases.judgeId, judgeUser.id))
+			.where(eq(cases.caseNumber, caseNumber))
+			.limit(1);
+
+		const record = records[0];
+		if (!record) return null;
+
+		return {
+			...record,
+			judgeName: record.judgeName ?? null,
+			judgeEmail: record.judgeEmail ?? null,
+		};
 	}
 
 	async findAllByUser(
@@ -198,6 +218,32 @@ export class PgCaseRepository implements ICaseRepository {
 			.set({
 				judgeId,
 				status: "UNDER_REVIEW",
+				updatedAt: new Date(),
+			})
+			.where(eq(cases.id, caseId));
+	}
+
+	async updateStatus(
+		caseId: string,
+		status: "UNDER_REVIEW" | "PENDING_RESOLUTION",
+	): Promise<void> {
+		await db
+			.update(cases)
+			.set({ status, updatedAt: new Date() })
+			.where(eq(cases.id, caseId));
+	}
+
+	async closeCase(
+		caseId: string,
+		resolution: CaseResolution,
+		resolutionText?: string,
+	): Promise<void> {
+		await db
+			.update(cases)
+			.set({
+				status: "CLOSED",
+				resolution,
+				resolutionText: resolutionText ?? null,
 				updatedAt: new Date(),
 			})
 			.where(eq(cases.id, caseId));

@@ -7,7 +7,11 @@ import { useRef } from "react";
 import { useFileUpload } from "../hooks/use-file-upload";
 import { DocumentListItem } from "./document-list-item";
 
-export function FileUploadZone() {
+interface FileUploadZoneProps {
+	onFilesChange?: (files: File[]) => void;
+}
+
+export function FileUploadZone({ onFilesChange }: FileUploadZoneProps) {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const {
 		documents,
@@ -17,7 +21,7 @@ export function FileUploadZone() {
 		onDragOver,
 		onDragLeave,
 		onDrop,
-	} = useFileUpload();
+	} = useFileUpload({ onFilesChange });
 
 	const handleBoxClick = () => {
 		if (fileInputRef.current) {
@@ -79,7 +83,7 @@ export function FileUploadZone() {
 						JPG / PNG
 					</span>
 					<span className="rounded-full bg-surface-container px-3 py-1">
-						Máx. 25 MB
+						Máx. 16 MB
 					</span>
 				</div>
 

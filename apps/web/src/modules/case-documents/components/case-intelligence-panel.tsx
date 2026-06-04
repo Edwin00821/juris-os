@@ -1,4 +1,8 @@
-import { FileText } from "lucide-react";
+import { FileText, Plus } from "lucide-react";
+import { DocumentList } from "@/modules/documents/components/document-list";
+import { DocumentUploadZone } from "@/modules/documents/components/document-upload-zone";
+import { useCaseDocuments } from "@/modules/documents/hooks/use-case-documents";
+import { useDeleteDocument } from "@/modules/documents/hooks/use-delete-document";
 import type { CaseDetail } from "../types";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -10,11 +14,13 @@ const CATEGORY_LABELS: Record<string, string> = {
 interface CaseIntelligencePanelProps {
 	caseDetail: CaseDetail;
 	footer?: React.ReactNode;
+	canUpload?: boolean;
 }
 
 export function CaseIntelligencePanel({
 	caseDetail,
 	footer,
+	canUpload = false,
 }: CaseIntelligencePanelProps) {
 	const {
 		description,
@@ -25,6 +31,15 @@ export function CaseIntelligencePanel({
 		plaintiffName,
 		waitingDays,
 	} = caseDetail;
+
+	const { data: docsResponse, isLoading: docsLoading } = useCaseDocuments(
+		caseDetail.id,
+	);
+	const { mutate: deleteDocument, isPending: isDeleting } = useDeleteDocument(
+		caseDetail.id,
+	);
+
+	const documents = docsResponse?.data ?? [];
 
 	const filedDate = new Date(createdAt).toLocaleDateString("es-MX", {
 		day: "2-digit",
@@ -113,10 +128,39 @@ export function CaseIntelligencePanel({
 				<h3 className="mb-3 flex items-center gap-1.5 font-bold text-[10px] text-slate-500 uppercase tracking-widest">
 					<FileText className="h-3.5 w-3.5" />
 					Documentos del Expediente
+					{!docsLoading && documents.length > 0 && (
+						<span className="ml-auto rounded-full bg-slate-100 px-1.5 py-0.5 font-bold text-[9px] text-slate-500">
+							{documents.length}
+						</span>
+					)}
 				</h3>
-				<p className="text-[11px] text-slate-400 italic">
-					La gestión de documentos estará disponible próximamente.
-				</p>
+
+				{docsLoading ? (
+					<p className="text-[11px] text-slate-400 italic">
+						Cargando documentos...
+					</p>
+				) : (
+					<DocumentList
+						documents={documents}
+						onDelete={canUpload ? deleteDocument : undefined}
+						isDeleting={isDeleting}
+					/>
+				)}
+
+				{canUpload && caseDetail.uuid && (
+					<DocumentUploadZone
+						caseNumber={caseDetail.id}
+						caseUuid={caseDetail.uuid}
+						compact
+					/>
+				)}
+
+				{canUpload && !caseDetail.uuid && (
+					<p className="mt-2 flex items-center gap-1 text-[10px] text-slate-300">
+						<Plus className="size-3" /> Carga de documentos no disponible
+					</p>
+				)}
+
 				{footer && <div className="mt-4">{footer}</div>}
 			</section>
 		</div>

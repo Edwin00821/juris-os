@@ -5,14 +5,14 @@ Este caso prueba qué hace el sistema cuando hay un caso muy complejo
 (Nivel 5) y tiene a dos jueces expertos en la materia, pero uno está
 casi saturado y el otro tiene disponibilidad media.
 
-script_prueba2.json: Competencia Comercial (Desempate)
+script_prueba2.json: Competencia Laboral (Desempate)
 Aquí tenemos un caso sencillo (Nivel 2), pero hay varios
-jueces de "Disputas Comerciales" con cargas de trabajo muy similares.
+jueces de "Laboral" con cargas de trabajo muy similares.
 Esto pondrá a prueba la sensibilidad del Random Forest para predecir
 diferencias sutiles en los días de resolución.
 
 script_prueba3.json: Crisis en el Tribunal (Caso Extremo)
-Este es un Edge Case. ¿Qué pasa si entra un caso de Derechos Civiles,
+Este es un Edge Case. ¿Qué pasa si entra un caso de Familiar,
 pero absolutamente todos los jueces expertos en esa área están saturados
 por encima del 90% (aqui hay un filtro duro)? El sistema debería descartarlos a
 todos y buscar la siguiente mejor opción (alguien con carga baja, aunque

@@ -73,5 +73,5 @@ Al ser un problema de optimizacion y recomendacion, podemos abordarlo con un **E
 Desde una terminal en la carpeta raiz del proyecto:
 
 ```bash
-uvicorn ia.motor_asignacion_ia.app.main:app --reload
+uvicorn apps.motor_asignacion_ia.app.main:app --reload
 ```

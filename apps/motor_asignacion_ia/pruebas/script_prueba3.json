@@ -1,68 +1,68 @@
 {
     "caso": {
         "id_caso": "EXP-NUEVO-004",
-        "categoria_caso": "Derechos Civiles",
+        "categoria_caso": "Familiar",
         "complejidad": 4
     },
     "jueces": [
         {
             "id": "J-001",
             "nombre": "Hon. Elena Jacobs",
-            "especialidad": "Derechos Civiles",
+            "especialidad": "Familiar",
             "carga_trabajo_pct": 94.0
         },
         {
             "id": "J-007",
             "nombre": "Hon. Carmen Vargas",
-            "especialidad": "Derechos Civiles",
+            "especialidad": "Familiar",
             "carga_trabajo_pct": 98.0
         },
         {
             "id": "J-014",
             "nombre": "Hon. Peter Parker",
-            "especialidad": "Derechos Civiles",
+            "especialidad": "Familiar",
             "carga_trabajo_pct": 91.5
         },
         {
             "id": "J-015",
             "nombre": "Hon. Clark Kent",
-            "especialidad": "Derechos Civiles",
+            "especialidad": "Familiar",
             "carga_trabajo_pct": 99.0
         },
         {
             "id": "J-002",
             "nombre": "Hon. Marcus Wright",
-            "especialidad": "Justicia Penal",
+            "especialidad": "Penal",
             "carga_trabajo_pct": 40.0
         },
         {
             "id": "J-003",
             "nombre": "Hon. Sophia Chen",
-            "especialidad": "Disputas Comerciales",
+            "especialidad": "Laboral",
             "carga_trabajo_pct": 35.0
         },
         {
             "id": "J-004",
             "nombre": "Hon. David Miller",
-            "especialidad": "Tribunal de Familia",
+            "especialidad": "Familiar",
             "carga_trabajo_pct": 12.0
         },
         {
             "id": "J-005",
             "nombre": "Hon. Alistair Thorne",
-            "especialidad": "Privacidad y Tecnología",
+            "especialidad": "Penal",
             "carga_trabajo_pct": 80.0
         },
         {
             "id": "J-016",
             "nombre": "Hon. Tony Stark",
-            "especialidad": "Privacidad y Tecnología",
+            "especialidad": "Laboral",
             "carga_trabajo_pct": 15.0
         },
         {
             "id": "J-017",
             "nombre": "Hon. Natasha Romanoff",
-            "especialidad": "Justicia Penal",
+            "especialidad": "Penal",
             "carga_trabajo_pct": 20.0
         }
     ]

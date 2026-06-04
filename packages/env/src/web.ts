@@ -10,6 +10,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		UPLOADTHING_TOKEN: z.string().min(1),
 	},
 	client: {
 		NEXT_PUBLIC_SERVER_URL: z.url(),
@@ -23,6 +24,7 @@ export const env = createEnv({
 
 		CORS_ORIGIN: process.env.CORS_ORIGIN,
 		NODE_ENV: process.env.NODE_ENV,
+		UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
 
 		// Client
 

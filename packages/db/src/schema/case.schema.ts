@@ -63,6 +63,8 @@ export const cases = pgTable(
 		priority: casePriorityEnum("priority").notNull().default("medium"),
 		// Set when status transitions to CLOSED: admitted | conditioned | rejected
 		resolution: caseResolutionEnum("resolution"),
+		// HTML body of the published sentence, written by the judge before closing
+		resolutionText: text("resolution_text"),
 		// Stores the numeric part for easy sequencing queries
 		sequenceNumber: integer("sequence_number").notNull(),
 		year: integer("year").notNull(),

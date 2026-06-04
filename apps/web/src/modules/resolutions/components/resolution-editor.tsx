@@ -8,6 +8,11 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@juris-os/ui/components/dialog";
+import { cn } from "@juris-os/ui/lib/utils";
+import HardBreak from "@tiptap/extension-hard-break";
+import Placeholder from "@tiptap/extension-placeholder";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import {
 	AlertTriangle,
 	Bold,
@@ -15,10 +20,15 @@ import {
 	FileEdit,
 	Italic,
 	List,
+	Loader2,
 	Lock,
 	Save,
+	ShieldCheck,
+	XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { type CaseResolution, useCloseCase } from "../hooks/use-close-case";
+import { useResolutionDraftStore } from "../stores/resolution-draft.store";
 import type { ResolutionQABlock } from "../types";
 
 interface ResolutionEditorProps {
@@ -26,16 +36,119 @@ interface ResolutionEditorProps {
 	qaBlocks: ResolutionQABlock[];
 }
 
+const VERDICT_OPTIONS: {
+	value: CaseResolution;
+	label: string;
+	description: string;
+	icon: React.ReactNode;
+	activeClassName: string;
+}[] = [
+	{
+		value: "admitted",
+		label: "Admitir",
+		description: "Se acoge la demanda",
+		icon: <CheckCircle className="h-4 w-4" />,
+		activeClassName: "border-emerald-400 bg-emerald-50 text-emerald-800",
+	},
+	{
+		value: "conditioned",
+		label: "Condicionar",
+		description: "Admitida con condiciones",
+		icon: <ShieldCheck className="h-4 w-4" />,
+		activeClassName: "border-amber-400 bg-amber-50 text-amber-800",
+	},
+	{
+		value: "rejected",
+		label: "Rechazar",
+		description: "Se desestima la demanda",
+		icon: <XCircle className="h-4 w-4" />,
+		activeClassName: "border-red-400 bg-red-50 text-red-800",
+	},
+];
+
 export function ResolutionEditor({
 	caseNumber,
 	qaBlocks,
 }: ResolutionEditorProps) {
 	const [showCloseModal, setShowCloseModal] = useState(false);
+	const [verdict, setVerdict] = useState<CaseResolution>("admitted");
 	const [savedToast, setSavedToast] = useState(false);
+	const restoredRef = useRef(false);
+
+	const saveDraft = useResolutionDraftStore((s) => s.saveDraft);
+	const clearDraft = useResolutionDraftStore((s) => s.clearDraft);
+	const getDraft = useResolutionDraftStore((s) => s.getDraft);
+	const draftAction = useResolutionDraftStore(
+		(s) => s.drafts[caseNumber]?.action ?? null,
+	);
+	const closeCase = useCloseCase();
+
+	const editor = useEditor({
+		extensions: [
+			StarterKit,
+			HardBreak.configure({
+				keepMarks: true,
+			}),
+			Placeholder.configure({
+				placeholder:
+					"Continúe redactando las consideraciones finales y el veredicto...",
+			}),
+		],
+		editorProps: {
+			attributes: {
+				class:
+					"min-h-40 w-full rounded-xl border border-slate-300 border-dashed bg-white p-4 text-slate-800 text-sm leading-relaxed focus:outline-none prose prose-sm max-w-none",
+			},
+		},
+	});
+
+	// Restore a previously saved draft into the editor once it's ready.
+	useEffect(() => {
+		if (!editor || restoredRef.current) return;
+		restoredRef.current = true;
+		const draft = getDraft(caseNumber);
+		if (draft?.content) {
+			editor.commands.setContent(draft.content);
+		}
+	}, [editor, caseNumber, getDraft]);
+
+	// Insert AI copilot blocks into the editor when they arrive
+	useEffect(() => {
+		if (!editor || !qaBlocks || qaBlocks.length === 0) return;
+		const lastBlock = qaBlocks[qaBlocks.length - 1];
+		if (!lastBlock?.answer) return;
+
+		const refsStr = Array.isArray(lastBlock.refs)
+			? lastBlock.refs.map((r) => `<span>${r}</span>`).join(" ")
+			: "";
+		editor
+			.chain()
+			.focus()
+			.insertContent(
+				`<p><strong>Hallazgo del Copiloto:</strong> ${lastBlock.answer}</p>${refsStr ? `<p>${refsStr}</p>` : ""}`,
+			)
+			.run();
+	}, [editor, qaBlocks]);
 
 	function handleSaveDraft() {
+		if (!editor) return;
+		saveDraft(caseNumber, {
+			content: editor.getHTML(),
+			action: draftAction,
+		});
 		setSavedToast(true);
 		setTimeout(() => setSavedToast(false), 2800);
+	}
+
+	function handleCloseCase() {
+		closeCase.mutate(
+			{
+				caseId: caseNumber,
+				resolution: verdict,
+				resolutionText: editor?.getHTML(),
+			},
+			{ onSuccess: () => clearDraft(caseNumber) },
+		);
 	}
 
 	return (
@@ -53,16 +166,27 @@ export function ResolutionEditor({
 						</span>
 					</div>
 					<div className="flex items-center gap-1">
-						{[Bold, Italic, List].map((Icon, i) => (
-							<button
-								type="button"
-								// biome-ignore lint/suspicious/noArrayIndexKey: toolbar icons
-								key={i}
-								className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100"
-							>
-								<Icon className="h-3.5 w-3.5" />
-							</button>
-						))}
+						<button
+							type="button"
+							onClick={() => editor?.chain().focus().toggleBold().run()}
+							className={`rounded-lg p-1.5 transition-colors ${editor?.isActive("bold") ? "bg-slate-200 text-[#002045]" : "text-slate-500 hover:bg-slate-100"}`}
+						>
+							<Bold className="h-3.5 w-3.5" />
+						</button>
+						<button
+							type="button"
+							onClick={() => editor?.chain().focus().toggleItalic().run()}
+							className={`rounded-lg p-1.5 transition-colors ${editor?.isActive("italic") ? "bg-slate-200 text-[#002045]" : "text-slate-500 hover:bg-slate-100"}`}
+						>
+							<Italic className="h-3.5 w-3.5" />
+						</button>
+						<button
+							type="button"
+							onClick={() => editor?.chain().focus().toggleBulletList().run()}
+							className={`rounded-lg p-1.5 transition-colors ${editor?.isActive("bulletList") ? "bg-slate-200 text-[#002045]" : "text-slate-500 hover:bg-slate-100"}`}
+						>
+							<List className="h-3.5 w-3.5" />
+						</button>
 						<div className="mx-1 h-5 w-px bg-slate-200" />
 						<button
 							type="button"
@@ -93,50 +217,11 @@ export function ResolutionEditor({
 							procede al análisis de los puntos de hecho y de derecho.
 						</p>
 
-						{qaBlocks.length > 0 && (
-							<div className="mb-5 rounded-r-xl border-[#002045] border-l-4 bg-slate-50/60 p-5">
-								<p className="mb-3 flex items-center gap-1.5 font-bold text-[#002045] text-[10px] uppercase tracking-widest">
-									<CheckCircle className="h-3 w-3" />
-									Hallazgos generados por Copiloto Judicial
-								</p>
-								{qaBlocks.map((block, idx) => (
-									<div
-										key={block.id}
-										className={
-											idx > 0 ? "mt-4 border-slate-200 border-t pt-4" : ""
-										}
-									>
-										<p className="mb-1 font-bold text-slate-500 text-xs uppercase tracking-wide">
-											P: {block.question}
-										</p>
-										<p className="text-slate-800 text-sm leading-relaxed">
-											{block.answer}
-										</p>
-										<div className="mt-2 flex flex-wrap gap-1.5">
-											{block.refs.map((ref) => (
-												<span
-													key={ref}
-													className="rounded bg-[#d6e3ff] px-2 py-0.5 font-bold text-[#002045] text-[10px]"
-												>
-													{ref}
-												</span>
-											))}
-										</div>
-									</div>
-								))}
-							</div>
-						)}
-
 						<p className="mb-2 font-bold text-slate-400 text-xs uppercase tracking-widest">
 							Consideraciones Finales
 						</p>
-						<div
-							contentEditable
-							suppressContentEditableWarning
-							className="min-h-40 w-full rounded-xl border border-slate-300 border-dashed bg-white p-4 text-slate-800 text-sm leading-relaxed focus:outline-none"
-						>
-							Continúe redactando las consideraciones finales y el veredicto...
-						</div>
+
+						<EditorContent editor={editor} />
 
 						<div className="mt-8 flex items-start gap-4 rounded-xl border border-[#ba1a1a]/10 bg-[#ffdad6]/40 p-5">
 							<AlertTriangle className="mt-0.5 h-7 w-7 shrink-0 text-[#ba1a1a]" />
@@ -199,22 +284,60 @@ export function ResolutionEditor({
 							</div>
 						</div>
 					</DialogHeader>
-					<p className="mb-6 text-slate-700 text-sm leading-relaxed">
+					<p className="mb-5 text-slate-700 text-sm leading-relaxed">
 						Se generará un <strong>hash criptográfico</strong> de todos los
 						documentos y la sentencia. El expediente quedará bloqueado
 						permanentemente en el libro mayor digital.
 					</p>
+
+					<div className="mb-6">
+						<p className="mb-2 font-bold text-slate-500 text-xs uppercase tracking-widest">
+							Veredicto
+						</p>
+						<div className="grid grid-cols-3 gap-2">
+							{VERDICT_OPTIONS.map((opt) => (
+								<button
+									type="button"
+									key={opt.value}
+									onClick={() => setVerdict(opt.value)}
+									disabled={closeCase.isPending}
+									className={cn(
+										"flex flex-col items-center gap-1 rounded-xl border-2 px-2 py-3 text-center transition-all",
+										verdict === opt.value
+											? opt.activeClassName
+											: "border-slate-200 bg-white text-slate-400 hover:border-slate-300",
+									)}
+								>
+									{opt.icon}
+									<span className="font-bold text-xs">{opt.label}</span>
+									<span className="text-[10px] leading-tight opacity-80">
+										{opt.description}
+									</span>
+								</button>
+							))}
+						</div>
+					</div>
+
 					<div className="flex justify-end gap-3">
 						<Button
 							variant="ghost"
 							onClick={() => setShowCloseModal(false)}
+							disabled={closeCase.isPending}
 							className="font-bold"
 						>
 							Cancelar
 						</Button>
-						<Button className="flex items-center gap-2 bg-[#ba1a1a] font-bold text-white shadow-md hover:bg-[#93000a]">
-							<Lock className="h-3.5 w-3.5" />
-							Confirmar y Publicar
+						<Button
+							onClick={handleCloseCase}
+							disabled={closeCase.isPending}
+							className="flex items-center gap-2 bg-[#ba1a1a] font-bold text-white shadow-md hover:bg-[#93000a]"
+						>
+							{closeCase.isPending ? (
+								<Loader2 className="h-3.5 w-3.5 animate-spin" />
+							) : (
+								<Lock className="h-3.5 w-3.5" />
+							)}
+							{closeCase.isPending ? "Publicando..." : "Confirmar y Publicar"}
 						</Button>
 					</div>
 				</DialogContent>

@@ -118,8 +118,10 @@ export function AssignedCasesTable() {
 									<TableCell className="px-6 py-4 font-bold font-mono text-primary text-xs">
 										{c.id}
 									</TableCell>
-									<TableCell className="max-w-xs px-6 py-4 font-medium text-on-surface">
-										{c.title}
+									<TableCell className="px-6 py-4 font-medium text-on-surface">
+										<div className="max-w-xs truncate" title={c.title}>
+											{c.title}
+										</div>
 									</TableCell>
 									<TableCell className="px-6 py-4">
 										<span className="rounded bg-surface-container-high px-2 py-1 font-semibold text-xs">

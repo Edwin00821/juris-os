@@ -5,8 +5,11 @@ import { Card } from "@juris-os/ui/components/card";
 
 import { ArrowLeft, FileText, Send, UserX } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { FileUploadZone } from "@/modules/documents/components/file-upload-zone";
+import { useActiveDraft } from "../hooks/use-active-draft";
+import { useLoadDraftFromUrl } from "../hooks/use-load-draft-from-url";
 import { useSubmitLawsuit } from "../hooks/use-submit-lawsuit";
 
 const CATEGORY_OPTIONS = [
@@ -16,7 +19,25 @@ const CATEGORY_OPTIONS = [
 ];
 
 export function ManualLawsuitForm() {
-	const { form, isSubmitting, error } = useSubmitLawsuit();
+	useLoadDraftFromUrl();
+	const { form, isSubmitting, error, setPendingFiles } = useSubmitLawsuit();
+	const { saveOrUpdateActiveDraft } = useActiveDraft();
+
+	const handleSaveDraft = () => {
+		const values = form.state.values;
+
+		saveOrUpdateActiveDraft({
+			title: values.title || "",
+			description: values.description || "",
+			category: values.category || "",
+			incidentDate: values.incidentDate || "",
+			counterpartyName: values.counterpartyName || "",
+			counterpartyAddress: values.counterpartyAddress || "",
+			counterpartyId: values.counterpartyId || "",
+		});
+
+		toast.success("Borrador guardado correctamente");
+	};
 
 	return (
 		<form.AppForm>
@@ -87,7 +108,7 @@ export function ManualLawsuitForm() {
 					</div>
 				</Card>
 
-				<FileUploadZone />
+				<FileUploadZone onFilesChange={setPendingFiles} />
 
 				<Card className="rounded-xl border border-outline-variant bg-surface-container-high p-8 shadow-none">
 					<div className="mb-8 flex items-center gap-4">
@@ -150,7 +171,9 @@ export function ManualLawsuitForm() {
 						<Button
 							type="button"
 							variant="outline"
-							className="h-12 w-full border-none bg-surface-container-high px-6 font-bold text-on-surface-variant transition-colors hover:bg-surface-dim sm:w-auto"
+							disabled={isSubmitting}
+							onClick={handleSaveDraft}
+							className="h-12 w-full border-none bg-surface-container-high px-6 font-bold text-on-surface-variant transition-colors hover:bg-surface-dim disabled:opacity-50 sm:w-auto"
 						>
 							Guardar Borrador
 						</Button>

@@ -9,6 +9,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		GEMINI_API_KEY: z.string().min(1),
 	},
 	client: {},
 	clientPrefix: "NEXT_PUBLIC_",

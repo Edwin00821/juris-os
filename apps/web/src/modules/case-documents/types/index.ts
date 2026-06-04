@@ -5,6 +5,7 @@ import type {
 
 export interface CaseDetail {
 	id: string; // caseNumber (e.g., LAB-2026-0001)
+	uuid?: string; // internal UUID — needed as FK for documents
 	title: string;
 	description: string | null;
 	category: CaseCategory;
@@ -14,5 +15,7 @@ export interface CaseDetail {
 	closedDate?: string;
 	waitingDays?: number;
 	status: JudgeCaseStatus;
+	resolution?: "admitted" | "conditioned" | "rejected" | null;
+	resolutionText?: string | null; // HTML body of the published sentence
 	judgeName?: string | null;
 }

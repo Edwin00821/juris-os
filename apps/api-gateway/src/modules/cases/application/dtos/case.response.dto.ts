@@ -3,11 +3,16 @@ import type { JudgeCaseRow } from "../../infrastructure/repositories/case.reposi
 
 export type CaseResponseDto = {
 	id: string; // human-readable caseNumber shown in the UI (e.g. CIV-2025-0001)
+	uuid: string; // internal UUID — needed as FK for documents
 	title: string;
 	category: string;
 	registrationDate: string;
-	status: "OPEN" | "UNDER_REVIEW" | "PENDING_RESOLUTION";
+	status: "OPEN" | "UNDER_REVIEW" | "PENDING_RESOLUTION" | "CLOSED";
+	resolution: "admitted" | "conditioned" | "rejected" | null;
+	resolutionText: string | null;
 	judgeId: string | null;
+	judgeName: string | null;
+	judgeEmail: string | null;
 };
 
 export type PaginatedCasesDto = {
@@ -37,12 +42,14 @@ export type PaginatedJudgeCasesDto = {
 
 export type CaseDetailDto = {
 	id: string; // caseNumber
+	uuid: string; // internal UUID — needed as FK for documents
 	title: string;
 	description: string | null;
 	category: string;
 	priority: string;
 	status: string;
 	resolution: "admitted" | "conditioned" | "rejected" | null;
+	resolutionText: string | null;
 	counterpartyName: string | null;
 	plaintiffName: string;
 	judgeName: string | null;
@@ -59,7 +66,7 @@ const STATUS_MAP: Record<InternalCaseStatus, CaseResponseDto["status"]> = {
 	OPEN: "OPEN",
 	UNDER_REVIEW: "UNDER_REVIEW",
 	PENDING_RESOLUTION: "PENDING_RESOLUTION",
-	CLOSED: "PENDING_RESOLUTION",
+	CLOSED: "CLOSED",
 	ERROR: "PENDING_RESOLUTION",
 };
 
@@ -70,14 +77,23 @@ export const toCaseResponse = (case_: {
 	category: string;
 	createdAt: Date;
 	status: InternalCaseStatus;
+	resolution?: "admitted" | "conditioned" | "rejected" | null;
+	resolutionText?: string | null;
 	judgeId: string | null;
+	judgeName?: string | null;
+	judgeEmail?: string | null;
 }): CaseResponseDto => ({
 	id: case_.caseNumber,
+	uuid: case_.id,
 	title: case_.title,
 	category: case_.category,
 	registrationDate: case_.createdAt.toISOString(),
 	status: STATUS_MAP[case_.status],
+	resolution: case_.resolution ?? null,
+	resolutionText: case_.resolutionText ?? null,
 	judgeId: case_.judgeId,
+	judgeName: case_.judgeName ?? null,
+	judgeEmail: case_.judgeEmail ?? null,
 });
 
 export const toJudgeCaseListItem = (
@@ -99,12 +115,14 @@ export const toJudgeCaseListItem = (
 
 export const toCaseDetail = (case_: JudgeCaseRow): CaseDetailDto => ({
 	id: case_.caseNumber,
+	uuid: case_.id,
 	title: case_.title,
 	description: case_.description,
 	category: case_.category,
 	priority: case_.priority,
 	status: case_.status,
 	resolution: (case_.resolution as CaseDetailDto["resolution"]) ?? null,
+	resolutionText: case_.resolutionText ?? null,
 	counterpartyName: case_.counterpartyName,
 	plaintiffName: case_.plaintiffName,
 	judgeName: case_.judgeName,

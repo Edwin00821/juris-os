@@ -2,85 +2,51 @@
 
 import { cn } from "@juris-os/ui/lib/utils";
 import { Send, Sparkles, User } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import {
-	AI_FALLBACK,
-	AI_RESPONSES,
-	INITIAL_CHAT_MESSAGES,
-} from "../hooks/use-copilot";
-import type { ChatMessage, ResolutionQABlock } from "../types";
+import { useEffect, useRef } from "react";
+import type { Document } from "@/modules/documents/types";
+import { useCopilot } from "../hooks/use-copilot";
+import { renderMarkdown } from "../lib/markdown-renderer";
+import type { ResolutionQABlock } from "../types";
 
 interface JudicialCopilotProps {
+	caseNumber: string;
+	documents: Document[];
 	onAddToDoc: (block: ResolutionQABlock) => void;
 }
 
-export function JudicialCopilot({ onAddToDoc }: JudicialCopilotProps) {
-	const [messages, setMessages] = useState<ChatMessage[]>(
-		INITIAL_CHAT_MESSAGES,
+export function JudicialCopilot({
+	caseNumber,
+	documents,
+	onAddToDoc,
+}: JudicialCopilotProps) {
+	const { messages, input, setInput, isTyping, sendMessage } = useCopilot(
+		caseNumber,
+		documents,
+		onAddToDoc,
 	);
-	const [input, setInput] = useState("");
-	const [isTyping, setIsTyping] = useState(false);
 	const scrollRef = useRef<HTMLDivElement>(null);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: messages/isTyping are used as scroll triggers
+	// biome-ignore lint/correctness/useExhaustiveDependencies: messages/isTyping are scroll triggers
 	useEffect(() => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
 		}
 	}, [messages, isTyping]);
 
-	function sendMessage() {
-		const text = input.trim();
-		if (!text || isTyping) return;
-		setInput("");
-
-		const userMsg: ChatMessage = {
-			id: Date.now().toString(),
-			role: "user",
-			text,
-		};
-		setMessages((prev) => [...prev, userMsg]);
-		setIsTyping(true);
-
-		const delay = 1400 + Math.random() * 600;
-		setTimeout(() => {
-			const match = AI_RESPONSES.find((r) => r.pattern.test(text));
-			const response = match ?? AI_FALLBACK;
-
-			const aiMsg: ChatMessage = {
-				id: (Date.now() + 1).toString(),
-				role: "ai",
-				text: response.answer,
-				refs: response.refs,
-				addedToDoc: true,
-			};
-			setMessages((prev) => [...prev, aiMsg]);
-			setIsTyping(false);
-
-			onAddToDoc({
-				id: aiMsg.id,
-				question: text,
-				answer: response.docSummary,
-				refs: response.refs,
-			});
-		}, delay);
-	}
-
 	return (
-		<div
-			className="flex flex-col border-slate-200 border-b bg-white"
-			style={{ height: 380 }}
-		>
+		<div className="flex flex-1 flex-col overflow-hidden bg-white">
 			<div className="flex items-center gap-2 border-slate-100 border-b bg-slate-50/60 px-6 py-3">
 				<div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#002045]">
 					<Sparkles className="h-3.5 w-3.5 text-white" />
 				</div>
 				<div className="flex-1">
 					<p className="font-bold text-[#002045] text-xs">
-						Copiloto Judicial — Búsqueda Semántica
+						Copiloto Judicial — Análisis de Expedientes
 					</p>
 					<p className="text-[10px] text-slate-500">
-						Indaga en los documentos del expediente y redacta automáticamente.
+						{documents.length > 0
+							? `${documents.length} documento(s) analizados · Claude AI`
+							: "Sin documentos · Claude AI"}
 					</p>
 				</div>
 				<div className="flex items-center gap-1.5">
@@ -119,17 +85,19 @@ export function JudicialCopilot({ onAddToDoc }: JudicialCopilotProps) {
 									Copiloto Judicial{" "}
 									{msg.id !== "welcome" && (
 										<span className="font-normal text-[10px] text-slate-400">
-											— búsqueda semántica completada
+											— búsqueda completada
 										</span>
 									)}
 								</p>
 							)}
-							<p
-								className="leading-relaxed"
+							<div
+								className="space-y-1"
 								// biome-ignore lint/security/noDangerouslySetInnerHtml: controlled AI responses
-								dangerouslySetInnerHTML={{ __html: msg.text }}
+								dangerouslySetInnerHTML={{
+									__html: renderMarkdown(msg.text),
+								}}
 							/>
-							{msg.refs && (
+							{msg.refs && msg.refs.length > 0 && (
 								<div className="mt-2 flex flex-wrap gap-1.5">
 									{msg.refs.map((ref) => (
 										<span
@@ -141,10 +109,10 @@ export function JudicialCopilot({ onAddToDoc }: JudicialCopilotProps) {
 									))}
 								</div>
 							)}
-							{msg.addedToDoc && (
+							{msg.role === "ai" && msg.id !== "welcome" && (
 								<p className="mt-2 flex items-center gap-1 font-bold text-[10px] text-emerald-700">
 									<span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
-									Añadido al documento de resolución
+									Agregado al documento de resolución
 								</p>
 							)}
 						</div>
@@ -182,7 +150,7 @@ export function JudicialCopilot({ onAddToDoc }: JudicialCopilotProps) {
 					onKeyDown={(e) => {
 						if (e.key === "Enter" && !e.shiftKey) {
 							e.preventDefault();
-							sendMessage();
+							void sendMessage();
 						}
 					}}
 					className="flex-1 resize-none rounded-xl border-none bg-slate-50 p-3 text-sm placeholder:text-slate-400 focus:ring-2 focus:ring-[#002045]"
@@ -190,7 +158,7 @@ export function JudicialCopilot({ onAddToDoc }: JudicialCopilotProps) {
 				/>
 				<button
 					type="button"
-					onClick={sendMessage}
+					onClick={() => void sendMessage()}
 					disabled={isTyping || !input.trim()}
 					className="shrink-0 rounded-xl bg-[#002045] p-3 text-white shadow-md transition-opacity hover:opacity-90 disabled:opacity-40"
 				>

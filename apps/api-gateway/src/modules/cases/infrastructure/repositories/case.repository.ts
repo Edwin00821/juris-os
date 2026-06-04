@@ -1,6 +1,9 @@
 import type { CaseRecord } from "@juris-os/db/schema/case.schema";
 import type { CreateCaseDto } from "../../application/dtos/create-case.dto";
-import type { InternalCaseStatus } from "../../domain/case.types";
+import type {
+	CaseResolution,
+	InternalCaseStatus,
+} from "../../domain/case.types";
 
 export type PaginationParams = {
 	page: number;
@@ -35,4 +38,13 @@ export interface ICaseRepository {
 	): Promise<PaginatedResult<JudgeCaseRow>>;
 	findDetailByCaseNumber(caseNumber: string): Promise<JudgeCaseRow | null>;
 	assignJudge(caseId: string, judgeId: string): Promise<void>;
+	updateStatus(
+		caseId: string,
+		status: "UNDER_REVIEW" | "PENDING_RESOLUTION",
+	): Promise<void>;
+	closeCase(
+		caseId: string,
+		resolution: CaseResolution,
+		resolutionText?: string,
+	): Promise<void>;
 }

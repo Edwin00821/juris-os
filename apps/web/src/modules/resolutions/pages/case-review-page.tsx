@@ -1,51 +1,57 @@
 "use client";
 
-import { ArrowLeft, CloudUpload, History, Loader2 } from "lucide-react";
+import { cn } from "@juris-os/ui/lib/utils";
+import {
+	ArrowLeft,
+	FileText,
+	History,
+	Loader2,
+	MessageSquare,
+} from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CaseIntelligencePanel } from "@/modules/case-documents/components/case-intelligence-panel";
 import { useCaseDetail } from "@/modules/case-documents/hooks/use-case-detail";
+import { useCaseDocuments } from "@/modules/documents/hooks/use-case-documents";
 import { CaseStatusSelector } from "../components/case-status-selector";
 import { JudicialCopilot } from "../components/judicial-copilot";
 import { ResolutionEditor } from "../components/resolution-editor";
+import {
+	useUpdateCaseStatus,
+	type WorkingCaseStatus,
+} from "../hooks/use-update-case-status";
 import type { ResolutionQABlock } from "../types";
-
-function UploadZone() {
-	return (
-		<div className="mt-2">
-			<p className="mb-2 flex items-center gap-1.5 font-bold text-[10px] text-slate-500 uppercase tracking-widest">
-				<CloudUpload className="h-3.5 w-3.5" />
-				Subir Resolución del Juez
-			</p>
-			<label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-slate-300 border-dashed p-4 transition-all hover:border-[#002045] hover:bg-blue-50/30">
-				<input type="file" className="hidden" accept=".pdf,.docx" />
-				<CloudUpload className="h-7 w-7 text-slate-400" />
-				<p className="text-center font-medium text-slate-500 text-xs">
-					Arrastra un archivo o{" "}
-					<span className="font-bold text-[#002045] underline">
-						haz clic aquí
-					</span>
-				</p>
-				<p className="text-[10px] text-slate-400">PDF o DOCX · máx 20MB</p>
-			</label>
-			<p className="mt-2 text-[10px] text-slate-400 italic">
-				Este documento será adjuntado al expediente oficial antes del cierre del
-				caso.
-			</p>
-		</div>
-	);
-}
 
 interface CaseReviewPageProps {
 	params: { id: string };
 }
 
 export default function CaseReviewPage({ params }: CaseReviewPageProps) {
+	const router = useRouter();
 	const { data, isLoading, isError } = useCaseDetail(params.id);
 	const caseDetail = data?.data;
+	const { data: docsResponse } = useCaseDocuments(params.id);
+	const documents = docsResponse?.data ?? [];
 
-	const [status, setStatus] = useState<string | null>(null);
+	const updateStatus = useUpdateCaseStatus();
 	const [qaBlocks, setQaBlocks] = useState<ResolutionQABlock[]>([]);
+	const [activeTab, setActiveTab] = useState<"chat" | "resolution">("chat");
+
+	// The header selector reflects the case's real working status (not CLOSED,
+	// which is reached via the publish flow and redirects away).
+	const workingStatus: WorkingCaseStatus | null =
+		caseDetail?.status === "UNDER_REVIEW" ||
+		caseDetail?.status === "PENDING_RESOLUTION"
+			? caseDetail.status
+			: null;
+
+	// A closed case is immutable — send the judge to the read-only published view.
+	useEffect(() => {
+		if (caseDetail?.status === "CLOSED") {
+			router.replace(`/judge/cases/${params.id}/closed`);
+		}
+	}, [caseDetail?.status, params.id, router]);
 
 	function handleAddToDoc(block: ResolutionQABlock) {
 		setQaBlocks((prev) => [...prev, block]);
@@ -63,6 +69,15 @@ export default function CaseReviewPage({ params }: CaseReviewPageProps) {
 		return (
 			<div className="flex h-screen items-center justify-center">
 				<p className="text-red-600 text-sm">No se pudo cargar el expediente.</p>
+			</div>
+		);
+	}
+
+	// Closed cases are redirected by the effect above — avoid flashing the editor.
+	if (caseDetail.status === "CLOSED") {
+		return (
+			<div className="flex h-screen items-center justify-center text-slate-400">
+				<Loader2 className="h-6 w-6 animate-spin" />
 			</div>
 		);
 	}
@@ -90,7 +105,13 @@ export default function CaseReviewPage({ params }: CaseReviewPageProps) {
 					</div>
 				</div>
 				<div className="flex items-center gap-4">
-					<CaseStatusSelector value={status} onChange={setStatus} />
+					<CaseStatusSelector
+						value={workingStatus}
+						disabled={updateStatus.isPending}
+						onChange={(status) =>
+							updateStatus.mutate({ caseId: params.id, status })
+						}
+					/>
 					<button
 						type="button"
 						className="flex items-center gap-1.5 font-semibold text-slate-500 text-xs transition-colors hover:text-[#002045]"
@@ -102,14 +123,50 @@ export default function CaseReviewPage({ params }: CaseReviewPageProps) {
 			</div>
 
 			<div className="flex flex-1 overflow-hidden">
-				<CaseIntelligencePanel
-					caseDetail={caseDetail}
-					footer={<UploadZone />}
-				/>
+				<CaseIntelligencePanel caseDetail={caseDetail} canUpload />
 
 				<div className="flex flex-1 flex-col overflow-hidden bg-slate-50">
-					<JudicialCopilot onAddToDoc={handleAddToDoc} />
-					<ResolutionEditor caseNumber={caseDetail.id} qaBlocks={qaBlocks} />
+					{/* Tabs */}
+					<div className="flex items-center border-slate-200 border-b bg-white px-6">
+						<button
+							type="button"
+							onClick={() => setActiveTab("chat")}
+							className={cn(
+								"flex items-center gap-2 border-b-2 px-4 py-3 font-semibold text-sm transition-colors",
+								activeTab === "chat"
+									? "border-[#002045] text-[#002045]"
+									: "border-transparent text-slate-500 hover:text-slate-700",
+							)}
+						>
+							<MessageSquare className="h-4 w-4" />
+							Copiloto Judicial
+						</button>
+						<button
+							type="button"
+							onClick={() => setActiveTab("resolution")}
+							className={cn(
+								"flex items-center gap-2 border-b-2 px-4 py-3 font-semibold text-sm transition-colors",
+								activeTab === "resolution"
+									? "border-[#002045] text-[#002045]"
+									: "border-transparent text-slate-500 hover:text-slate-700",
+							)}
+						>
+							<FileText className="h-4 w-4" />
+							Redacción de Sentencia
+						</button>
+					</div>
+
+					{/* Tab content */}
+					{activeTab === "chat" && (
+						<JudicialCopilot
+							caseNumber={caseDetail.id}
+							documents={documents}
+							onAddToDoc={handleAddToDoc}
+						/>
+					)}
+					{activeTab === "resolution" && (
+						<ResolutionEditor caseNumber={caseDetail.id} qaBlocks={qaBlocks} />
+					)}
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,8 @@ export interface ChatMessage {
 	text: string;
 	refs?: string[];
 	addedToDoc?: boolean;
+	question?: string;
+	isFindings?: boolean;
 }
 
 export interface ResolutionQABlock {

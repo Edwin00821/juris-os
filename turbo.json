@@ -16,6 +16,7 @@
 				"BETTER_AUTH_SECRET",
 				"BETTER_AUTH_URL",
 				"CORS_ORIGIN",
+				"UPLOADTHING_TOKEN",
 				"NEXT_PUBLIC_SERVER_URL",
 				"NEXT_PUBLIC_API_GATEWAY"
 			]
@@ -24,7 +25,7 @@
 		"api-gateway#build": {
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**"],
-			"env": ["DATABASE_URL", "CORS_ORIGIN"]
+			"env": ["DATABASE_URL", "CORS_ORIGIN", "GEMINI_API_KE"]
 		},
 
 		"lint": {

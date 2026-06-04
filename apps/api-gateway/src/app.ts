@@ -5,8 +5,11 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
 import { requireAuth } from "./core/middlewares/auth.middleware";
+import { aiRouter } from "./modules/ai/interface/ai.router";
 import { analyticsRouter } from "./modules/analytics/interface/analytics.router";
 import { casesRouter } from "./modules/cases/interface/cases.router";
+import { caseDocumentsRouter } from "./modules/documents/interface/case-documents.router";
+import { documentsRouter } from "./modules/documents/interface/documents.router";
 import { usersRouter } from "./modules/users/interface/users.router";
 
 const app = new Hono();
@@ -42,6 +45,13 @@ app.onError((err, c) => {
 	}
 
 	if (err instanceof HTTPException) {
+		if (err.status >= 500) {
+			console.error(
+				`[HTTPException ${err.status}]`,
+				err.message,
+				err.cause ?? "",
+			);
+		}
 		return c.json(
 			{
 				success: false,
@@ -90,6 +100,9 @@ app.get("/", (c) => {
 });
 
 app.route("/cases", casesRouter);
+app.route("/cases/:caseNumber/documents", caseDocumentsRouter);
+app.route("/documents", documentsRouter);
+app.route("/ai", aiRouter);
 app.route("/users", usersRouter);
 app.route("/analytics", analyticsRouter);
 

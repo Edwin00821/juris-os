@@ -26,6 +26,16 @@ export type CaseAssignedEvent = BaseEvent<
 	}
 >;
 
+export type CaseClosedEvent = BaseEvent<
+	"CaseClosed",
+	{
+		caseId: string;
+		caseNumber: string;
+		resolution: "admitted" | "conditioned" | "rejected";
+		closedBy: string;
+	}
+>;
+
 export type CaseStatusChangedEvent = BaseEvent<
 	"CaseStatusChanged",
 	{
@@ -81,6 +91,7 @@ export type AiGenerationFailedEvent = BaseEvent<
 export type DomainEvent =
 	| CaseCreatedEvent
 	| CaseAssignedEvent
+	| CaseClosedEvent
 	| CaseStatusChangedEvent
 	| CaseFailedEvent
 	| DocumentUploadedEvent

@@ -1,9 +1,8 @@
 import { env } from "@juris-os/env/api-gateway";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
-import { ZodError } from "zod";
+import { registerErrorHandlers } from "./core/http/error-handler";
 import { requireAuth } from "./core/middlewares/auth.middleware";
 import { aiRouter } from "./modules/ai/interface/ai.router";
 import { analyticsRouter } from "./modules/analytics/interface/analytics.router";
@@ -26,70 +25,7 @@ app.use(
 	}),
 );
 
-app.onError((err, c) => {
-	if (err instanceof ZodError) {
-		return c.json(
-			{
-				success: false,
-				error: {
-					code: "VALIDATION_ERROR",
-					message: "Los datos enviados no son válidos.",
-					issues: err.issues.map((issue) => ({
-						field: issue.path.join("."),
-						message: issue.message,
-					})),
-				},
-			},
-			422,
-		);
-	}
-
-	if (err instanceof HTTPException) {
-		if (err.status >= 500) {
-			console.error(
-				`[HTTPException ${err.status}]`,
-				err.message,
-				err.cause ?? "",
-			);
-		}
-		return c.json(
-			{
-				success: false,
-				error: {
-					code: "HTTP_ERROR",
-					message: err.message,
-				},
-			},
-			err.status,
-		);
-	}
-
-	console.error("[UnhandledError]", err);
-
-	return c.json(
-		{
-			success: false,
-			error: {
-				code: "INTERNAL_SERVER_ERROR",
-				message: "Ocurrió un error inesperado. Intenta de nuevo más tarde.",
-			},
-		},
-		500,
-	);
-});
-
-app.notFound((c) => {
-	return c.json(
-		{
-			success: false,
-			error: {
-				code: "NOT_FOUND",
-				message: `La ruta ${c.req.method} ${c.req.path} no existe.`,
-			},
-		},
-		404,
-	);
-});
+registerErrorHandlers(app);
 
 app.get("/me", requireAuth, (c) => {
 	return c.json({ success: true, data: c.get("user") });

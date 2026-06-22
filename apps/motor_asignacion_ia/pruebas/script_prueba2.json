@@ -1,51 +1,51 @@
 {
-    "caso": {
-        "id_caso": "EXP-NUEVO-003",
-        "categoria_caso": "Laboral",
-        "complejidad": 2
-    },
-    "jueces": [
-        {
-            "id": "J-001",
-            "nombre": "Hon. Elena Jacobs",
-            "especialidad": "Familiar",
-            "carga_trabajo_pct": 50.0
-        },
-        {
-            "id": "J-003",
-            "nombre": "Hon. Sophia Chen",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 22.0
-        },
-        {
-            "id": "J-009",
-            "nombre": "Hon. Arthur Pendelton",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 25.5
-        },
-        {
-            "id": "J-010",
-            "nombre": "Hon. Maria Rojas",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 19.0
-        },
-        {
-            "id": "J-011",
-            "nombre": "Hon. Victor Hugo",
-            "especialidad": "Penal",
-            "carga_trabajo_pct": 10.0
-        },
-        {
-            "id": "J-012",
-            "nombre": "Hon. Diana Prince",
-            "especialidad": "Familiar",
-            "carga_trabajo_pct": 5.0
-        },
-        {
-            "id": "J-013",
-            "nombre": "Hon. Bruce Wayne",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 85.0
-        }
-    ]
+	"caso": {
+		"id_caso": "EXP-NUEVO-003",
+		"categoria_caso": "Laboral",
+		"complejidad": 2
+	},
+	"jueces": [
+		{
+			"id": "J-001",
+			"nombre": "Hon. Elena Jacobs",
+			"especialidad": "Familiar",
+			"carga_trabajo_pct": 50.0
+		},
+		{
+			"id": "J-003",
+			"nombre": "Hon. Sophia Chen",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 22.0
+		},
+		{
+			"id": "J-009",
+			"nombre": "Hon. Arthur Pendelton",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 25.5
+		},
+		{
+			"id": "J-010",
+			"nombre": "Hon. Maria Rojas",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 19.0
+		},
+		{
+			"id": "J-011",
+			"nombre": "Hon. Victor Hugo",
+			"especialidad": "Penal",
+			"carga_trabajo_pct": 10.0
+		},
+		{
+			"id": "J-012",
+			"nombre": "Hon. Diana Prince",
+			"especialidad": "Familiar",
+			"carga_trabajo_pct": 5.0
+		},
+		{
+			"id": "J-013",
+			"nombre": "Hon. Bruce Wayne",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 85.0
+		}
+	]
 }

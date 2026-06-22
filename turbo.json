@@ -31,6 +31,10 @@
 		"lint": {
 			"dependsOn": ["^lint"]
 		},
+		"test": {},
+		"test:coverage": {
+			"outputs": ["coverage/**"]
+		},
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},

@@ -24,6 +24,8 @@
 		"db:stop": "turbo -F @juris-os/db db:stop",
 		"db:down": "turbo -F @juris-os/db db:down",
 		"check": "biome check --write .",
+		"test": "turbo test",
+		"test:coverage": "turbo test:coverage",
 		"prepare": "husky"
 	},
 	"dependencies": {

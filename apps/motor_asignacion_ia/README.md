@@ -24,31 +24,35 @@ Al ser un problema de optimizacion y recomendacion, podemos abordarlo con un **E
 ```text
 /motor_asignacion_ia
 ├── /app
-│   ├── /api
-│   │   └── endpoints.py                # Definición de rutas y controladores
-│   ├── /core
-│   │   └── config.py                   # Configuración y variables de entorno
-│   ├── /db
-│   │   └── database.py                 # Gestión de conexión PostgreSQL
 │   ├── /servicios
 │   │   ├── heuristica.py               # Lógica de puntuación ponderada
-│   │   └── ml_predict.py               # Inferencia del modelo ML
-│   └── main.py                         # Punto de entrada FastAPI
+│   │   └── ml_predict.py               # Inferencia del modelo ML (motor híbrido)
+│   └── main.py                         # Punto de entrada FastAPI (define los endpoints)
 ├── /data
-│   └── dataset_historico_simulado.csv  # Datos para entrenar tu modelo generados por generar_dataset.py
+│   └── dataset_historico_simulado.csv  # Datos para entrenar el modelo, generados por generar_dataset.py
 ├── /modelos
 │   ├── entrenar_rf.py                  # Entrenar el modelo Random Forest
 │   └── random_forest_jueces.pkl        # Modelo entrenado (Random Forest)
-├── generar_dataset.py                  # Crear valores aleatorios para entrenar el modelo y los guarda en data/dataset_historico_simulado.csv
+├── /tests                              # Suite de pytest
+│   ├── test_heuristica.py            # Pruebas unitarias del filtro heurístico
+│   ├── test_ml_predict.py           # Pruebas de la inferencia híbrida (Random Forest)
+│   └── test_api.py                  # Pruebas de POST /api/v1/asignar-juez (FastAPI TestClient)
+├── generar_dataset.py                  # Crea valores aleatorios para entrenar el modelo y los guarda en data/dataset_historico_simulado.csv
 ├── pruebas # Carpeta con ejemplos .json para probar en FastAPI
 │   ├── scripts_pruebas.txt           # Descripción de los casos de prueba
 │   ├── script_prueba.json            # Prueba sencilla para verificar la funcionalidad
 │   ├── script_prueba1.json           # El Dilema Penal (Alta Complejidad)
 │   ├── script_prueba2.json           # Competencia Comercial (Desempate)
 │   └── script_prueba3.json           # Crisis en el Tribunal (Caso Extremo)
+├── pytest.ini                          # Configuración de pytest
 ├── README.md                           # Documentación general
 └── requirements.txt                    # Dependencias del proyecto
 ```
+
+> Nota: la API es deliberadamente plana — la definición de rutas vive en
+> `app/main.py` y la lógica en `app/servicios/`. No existen carpetas `/api`,
+> `/core` ni `/db`: el motor no se conecta a PostgreSQL directamente, recibe los
+> jueces candidatos en el cuerpo de la petición que le envía el api-gateway.
  
 ## 🚀 Tecnologías Utilizadas
 
@@ -75,3 +79,23 @@ Desde una terminal en la carpeta raiz del proyecto:
 ```bash
 uvicorn apps.motor_asignacion_ia.app.main:app --reload
 ```
+
+## Como probar (pytest)
+
+Las dependencias de prueba (`pytest`, `httpx`) están en `requirements.txt`.
+Desde la carpeta `apps/motor_asignacion_ia`:
+
+```bash
+python -m venv venv && source venv/bin/activate   # primera vez
+pip install -r requirements.txt
+python -m pytest -v
+```
+
+La suite cubre tres niveles (33 pruebas):
+
+- `tests/test_heuristica.py` — filtro heurístico: exclusión por carga > 90 %,
+  coincidencia de especialidad, ponderación 60/40 y orden de candidatos.
+- `tests/test_ml_predict.py` — inferencia híbrida con el `.pkl` real y un
+  predictor simulado para verificar forma y orden de la respuesta.
+- `tests/test_api.py` — `POST /api/v1/asignar-juez` vía `TestClient`, repitiendo
+  los escenarios de `pruebas/*.json` más los casos de error (404 / 422).

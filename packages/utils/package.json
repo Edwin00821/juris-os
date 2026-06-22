@@ -6,12 +6,18 @@
 	"exports": {
 		"./auth": "./src/auth.ts"
 	},
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage"
+	},
 	"dependencies": {
 		"@node-rs/argon2": "^2.0.2"
 	},
 	"devDependencies": {
 		"@juris-os/config": "*",
 		"@types/node": "^22.13.14",
-		"typescript": "^6"
+		"typescript": "^6",
+		"vitest": "^3.2.4"
 	}
 }

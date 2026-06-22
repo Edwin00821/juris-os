@@ -1,5 +1,13 @@
 {
 	"name": "@juris-os/config",
 	"version": "0.0.0",
-	"private": true
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./tsconfig.base.json": "./tsconfig.base.json",
+		"./vitest.base": "./vitest.base.ts"
+	},
+	"devDependencies": {
+		"vitest": "^3.2.4"
+	}
 }

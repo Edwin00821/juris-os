@@ -1,57 +1,57 @@
 {
-    "caso": {
-        "id_caso": "EXP-NUEVO-002",
-        "categoria_caso": "Penal",
-        "complejidad": 5
-    },
-    "jueces": [
-        {
-            "id": "J-001",
-            "nombre": "Hon. Elena Jacobs",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 30.0
-        },
-        {
-            "id": "J-002",
-            "nombre": "Hon. Marcus Wright",
-            "especialidad": "Penal",
-            "carga_trabajo_pct": 88.5
-        },
-        {
-            "id": "J-003",
-            "nombre": "Hon. Sophia Chen",
-            "especialidad": "Laboral",
-            "carga_trabajo_pct": 15.0
-        },
-        {
-            "id": "J-004",
-            "nombre": "Hon. David Miller",
-            "especialidad": "Familiar",
-            "carga_trabajo_pct": 40.0
-        },
-        {
-            "id": "J-005",
-            "nombre": "Hon. Alistair Thorne",
-            "especialidad": "Penal",
-            "carga_trabajo_pct": 60.0
-        },
-        {
-            "id": "J-006",
-            "nombre": "Hon. Roberto Silva",
-            "especialidad": "Penal",
-            "carga_trabajo_pct": 45.0
-        },
-        {
-            "id": "J-007",
-            "nombre": "Hon. Carmen Vargas",
-            "especialidad": "Familiar",
-            "carga_trabajo_pct": 20.0
-        },
-        {
-            "id": "J-008",
-            "nombre": "Hon. Luis Mendoza",
-            "especialidad": "Penal",
-            "carga_trabajo_pct": 95.0
-        }
-    ]
+	"caso": {
+		"id_caso": "EXP-NUEVO-002",
+		"categoria_caso": "Penal",
+		"complejidad": 5
+	},
+	"jueces": [
+		{
+			"id": "J-001",
+			"nombre": "Hon. Elena Jacobs",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 30.0
+		},
+		{
+			"id": "J-002",
+			"nombre": "Hon. Marcus Wright",
+			"especialidad": "Penal",
+			"carga_trabajo_pct": 88.5
+		},
+		{
+			"id": "J-003",
+			"nombre": "Hon. Sophia Chen",
+			"especialidad": "Laboral",
+			"carga_trabajo_pct": 15.0
+		},
+		{
+			"id": "J-004",
+			"nombre": "Hon. David Miller",
+			"especialidad": "Familiar",
+			"carga_trabajo_pct": 40.0
+		},
+		{
+			"id": "J-005",
+			"nombre": "Hon. Alistair Thorne",
+			"especialidad": "Penal",
+			"carga_trabajo_pct": 60.0
+		},
+		{
+			"id": "J-006",
+			"nombre": "Hon. Roberto Silva",
+			"especialidad": "Penal",
+			"carga_trabajo_pct": 45.0
+		},
+		{
+			"id": "J-007",
+			"nombre": "Hon. Carmen Vargas",
+			"especialidad": "Familiar",
+			"carga_trabajo_pct": 20.0
+		},
+		{
+			"id": "J-008",
+			"nombre": "Hon. Luis Mendoza",
+			"especialidad": "Penal",
+			"carga_trabajo_pct": 95.0
+		}
+	]
 }

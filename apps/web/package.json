@@ -5,7 +5,11 @@
 	"scripts": {
 		"dev": "next dev --port 3001",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"test:e2e": "playwright test"
 	},
 	"dependencies": {
 		"@juris-os/auth": "*",
@@ -40,11 +44,16 @@
 	},
 	"devDependencies": {
 		"@juris-os/config": "*",
+		"@playwright/test": "^1.49.1",
 		"@tailwindcss/postcss": "^4.1.18",
 		"@types/node": "^20",
 		"@types/react": "^19.2.10",
 		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^4.3.4",
+		"@vitest/coverage-v8": "^3.2.4",
+		"jsdom": "^25.0.1",
 		"tailwindcss": "^4.1.18",
-		"typescript": "^6"
+		"typescript": "^6",
+		"vitest": "^3.2.4"
 	}
 }
